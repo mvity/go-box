@@ -126,17 +126,11 @@ func (b Bool) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements the encoding json interface.
 func (b *Bool) UnmarshalJSON(data []byte) error {
-	sval := strings.Trim(string(data), "\"")
 	var value interface{}
-	if err := json.Unmarshal([]byte(sval), &value); err != nil {
+	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	if value == nil {
-		b.value = nil
-		return nil
-	}
-	intv := NewBool(value)
-	b.value = intv.value
+	b.value = NewBool(value).value
 	return nil
 }
 
@@ -150,16 +144,6 @@ func (b Bool) Value() (driver.Value, error) {
 
 // Scan implements the driver Scanner interface.
 func (b *Bool) Scan(value interface{}) error {
-	//if value == nil {
-	//	b.value = nil
-	//	return nil
-	//}
-	//if val, ok := value.(bool); !ok {
-	//	return errors.New(fmt.Sprint("Failed to unmarshal int value:", value))
-	//} else {
-	//	b.value = &val
-	//}
-	intv := NewBool(value)
-	b.value = intv.value
+	b.value = NewBool(value).value
 	return nil
 }

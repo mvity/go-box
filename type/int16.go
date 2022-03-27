@@ -170,10 +170,6 @@ func (i *Int16) UnmarshalJSON(data []byte) error {
 	if err := json.Unmarshal([]byte(sval), &value); err != nil {
 		return err
 	}
-	if value == nil {
-		i.value = nil
-		return nil
-	}
 	i.value = NewInt16(value).value
 	return nil
 }
@@ -188,15 +184,6 @@ func (i Int16) Value() (driver.Value, error) {
 
 // Scan implements the driver Scanner interface.
 func (i *Int16) Scan(value interface{}) error {
-	//if value == nil {
-	//	i.value = nil
-	//	return nil
-	//}
-	//if val, ok := value.(int16); !ok {
-	//	return errors.New(fmt.Sprint("Failed to unmarshal int16 value:", value))
-	//} else {
-	//	i.value = &val
-	//}
 	i.value = NewInt16(value).value
 	return nil
 }

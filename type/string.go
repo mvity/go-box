@@ -26,62 +26,48 @@ func NewString(value interface{}) String {
 	}
 	switch value.(type) {
 	case bool:
-		var bval = value.(bool)
-		val := fmt.Sprintf("%v", bval)
+		val := fmt.Sprintf("%v", value.(bool))
 		strv.value = &val
 	case string:
 		sval := strings.TrimSpace(value.(string))
 		strv.value = &sval
 	case int:
-		ival := value.(int)
-		val := fmt.Sprintf("%v", ival)
+		val := fmt.Sprintf("%v", value.(int))
 		strv.value = &val
 	case int8:
-		ival := value.(int8)
-		val := fmt.Sprintf("%v", ival)
+		val := fmt.Sprintf("%v", value.(int8))
 		strv.value = &val
 	case int16:
-		ival := value.(int16)
-		val := fmt.Sprintf("%v", ival)
+		val := fmt.Sprintf("%v", value.(int16))
 		strv.value = &val
 	case int32:
-		ival := value.(int32)
-		val := fmt.Sprintf("%v", ival)
+		val := fmt.Sprintf("%v", value.(int32))
 		strv.value = &val
 	case int64:
-		ival := value.(int64)
-		val := fmt.Sprintf("%v", ival)
+		val := fmt.Sprintf("%v", value.(int64))
 		strv.value = &val
 	case uint:
-		uval := value.(uint)
-		val := fmt.Sprintf("%v", uval)
+		val := fmt.Sprintf("%v", value.(uint))
 		strv.value = &val
 	case uint8:
-		uval := value.(uint8)
-		val := fmt.Sprintf("%v", uval)
+		val := fmt.Sprintf("%v", value.(uint8))
 		strv.value = &val
 	case uint16:
-		uval := value.(uint16)
-		val := fmt.Sprintf("%v", uval)
+		val := fmt.Sprintf("%v", value.(uint16))
 		strv.value = &val
 	case uint32:
-		uval := value.(uint32)
-		val := fmt.Sprintf("%v", uval)
+		val := fmt.Sprintf("%v", value.(uint32))
 		strv.value = &val
 	case uint64:
-		uval := value.(uint64)
-		val := fmt.Sprintf("%v", uval)
+		val := fmt.Sprintf("%v", value.(uint64))
 		strv.value = &val
 	case float32:
-		fval := value.(float32)
-		val := fmt.Sprintf("%v", fval)
+		val := fmt.Sprintf("%v", value.(float32))
 		strv.value = &val
 	case float64:
-		fval := value.(float64)
-		val := fmt.Sprintf("%v", fval)
+		val := fmt.Sprintf("%v", value.(float64))
 		strv.value = &val
 	}
-
 	return strv
 }
 
@@ -113,14 +99,9 @@ func (s String) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements the encoding json interface.
 func (s *String) UnmarshalJSON(data []byte) error {
-	sval := string(data)
 	var value interface{}
-	if err := json.Unmarshal([]byte(sval), &value); err != nil {
+	if err := json.Unmarshal(data, &value); err != nil {
 		return err
-	}
-	if value == nil {
-		s.value = nil
-		return nil
 	}
 	s.value = NewString(value).value
 	return nil
@@ -136,15 +117,6 @@ func (s String) Value() (driver.Value, error) {
 
 // Scan implements the driver Scanner interface.
 func (s *String) Scan(value interface{}) error {
-	//if value == nil {
-	//	s.value = nil
-	//	return nil
-	//}
-	//if val, ok := value.(string); !ok {
-	//	return errors.New(fmt.Sprint("Failed to unmarshal int value:", value))
-	//} else {
-	//	s.value = &val
-	//}
 	s.value = NewString(value).value
 	return nil
 }

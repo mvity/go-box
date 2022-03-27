@@ -176,10 +176,6 @@ func (i *Int8) UnmarshalJSON(data []byte) error {
 	if err := json.Unmarshal([]byte(sval), &value); err != nil {
 		return err
 	}
-	if value == nil {
-		i.value = nil
-		return nil
-	}
 	i.value = NewInt8(value).value
 	return nil
 }
@@ -194,15 +190,6 @@ func (i Int8) Value() (driver.Value, error) {
 
 // Scan implements the driver Scanner interface.
 func (i *Int8) Scan(value interface{}) error {
-	//if value == nil {
-	//	i.value = nil
-	//	return nil
-	//}
-	//if val, ok := value.(int8); !ok {
-	//	return errors.New(fmt.Sprint("Failed to unmarshal int8 value:", value))
-	//} else {
-	//	i.value = &val
-	//}
 	i.value = NewInt8(value).value
 	return nil
 }

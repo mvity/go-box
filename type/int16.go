@@ -17,161 +17,154 @@ import (
 	"strings"
 )
 
-// UInt16 A nullable safe type, based on Golang basic type, supports JSON escape, Database field definition
-type UInt16 struct {
-	value *uint16
+// Int16 A nullable safe type, based on Golang basic type, supports JSON escape, Database field definition
+type Int16 struct {
+	value *int16
 }
 
-// NewUInt16 Generates a new object of type t.UInt16 based on the specified value
+// NewInt16 Generates a new object of type t.Int16 based on the specified value
 // Warning: When value is passed in as uint(X) and float(X), be aware of data overflow and loss of precision
-func NewUInt16(value interface{}) UInt16 {
-	uintv := UInt16{}
+func NewInt16(value interface{}) Int16 {
+	intv := Int16{}
 	if value == nil {
-		return uintv
+		return intv
 	}
 	switch value.(type) {
 	case bool:
-		var val uint16 = 0
+		var val int16 = 0
 		if value.(bool) {
 			val = 1
 		}
-		uintv.value = &val
+		intv.value = &val
 	case string:
-		sval := value.(string)
+		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
 				fval, _ := strconv.ParseFloat(value.(string), 64)
-				if fval < 0 || fval > math.MaxUint16 {
+				if fval > math.MaxInt16 {
 					gbox.WARN("Data overflow during type conversion. value: %v", fval)
 				}
-				val := uint16(fval)
-				uintv.value = &val
-			} else if strings.Contains(sval, "-") {
-				ival, _ := strconv.ParseInt(value.(string), 10, 64)
-				if ival < 0 || ival > math.MaxUint16 {
-					gbox.WARN("Data overflow during type conversion. value: %v", ival)
-				}
-				val := uint16(ival)
-				uintv.value = &val
+				val := int16(fval)
+				intv.value = &val
 			} else {
-				ival, _ := strconv.ParseUint(value.(string), 10, 64)
-				if ival < 0 || ival > math.MaxUint16 {
+				ival, _ := strconv.ParseInt(value.(string), 10, 64)
+				if ival > math.MaxInt16 {
 					gbox.WARN("Data overflow during type conversion. value: %v", ival)
 				}
-				val := uint16(ival)
-				uintv.value = &val
+				val := int16(ival)
+				intv.value = &val
 			}
 		}
 	case int:
 		ival := value.(int)
-		if ival < 0 || ival > math.MaxUint16 {
+		if ival > math.MaxInt16 {
 			gbox.WARN("Data overflow during type conversion. value: %v", ival)
 		}
-		val := uint16(ival)
-		uintv.value = &val
+		val := int16(ival)
+		intv.value = &val
 	case int8:
 		ival := value.(int8)
-		if ival < 0 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
-		}
-		val := uint16(ival)
-		uintv.value = &val
+		val := int16(ival)
+		intv.value = &val
 	case int16:
-		ival := value.(int16)
-		val := uint16(ival)
-		uintv.value = &val
+		val := value.(int16)
+		intv.value = &val
 	case int32:
 		ival := value.(int32)
-		if ival < 0 || ival > math.MaxUint16 {
+		if ival > math.MaxInt16 {
 			gbox.WARN("Data overflow during type conversion. value: %v", ival)
 		}
-		val := uint16(ival)
-		uintv.value = &val
+		val := int16(ival)
+		intv.value = &val
 	case int64:
 		ival := value.(int64)
-		if ival < 0 || ival > math.MaxUint16 {
+		if ival > math.MaxInt16 {
 			gbox.WARN("Data overflow during type conversion. value: %v", ival)
 		}
-		val := uint16(ival)
-		uintv.value = &val
+		val := int16(ival)
+		intv.value = &val
 	case uint:
 		uval := value.(uint)
-		if uval > math.MaxUint16 {
+		if uval > math.MaxInt16 {
 			gbox.WARN("Data overflow during type conversion. value: %v", uval)
 		}
-		val := uint16(uval)
-		uintv.value = &val
+		val := int16(uval)
+		intv.value = &val
 	case uint8:
 		uval := value.(uint8)
-		val := uint16(uval)
-		uintv.value = &val
+		val := int16(uval)
+		intv.value = &val
 	case uint16:
-		val := value.(uint16)
-		uintv.value = &val
+		uval := value.(uint16)
+		if uval > math.MaxInt16 {
+			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		}
+		val := int16(uval)
+		intv.value = &val
 	case uint32:
 		uval := value.(uint32)
-		if uval > math.MaxUint16 {
+		if uval > math.MaxInt16 {
 			gbox.WARN("Data overflow during type conversion. value: %v", uval)
 		}
-		val := uint16(uval)
-		uintv.value = &val
+		val := int16(uval)
+		intv.value = &val
 	case uint64:
 		uval := value.(uint64)
-		if uval > math.MaxUint16 {
+		if uval > math.MaxInt16 {
 			gbox.WARN("Data overflow during type conversion. value: %v", uval)
 		}
-		val := uint16(uval)
-		uintv.value = &val
+		val := int16(uval)
+		intv.value = &val
 	case float32:
 		fval := value.(float32)
-		if fval < 0 || fval > math.MaxUint16 {
+		if fval > math.MaxInt16 {
 			gbox.WARN("Data overflow during type conversion. value: %v", fval)
 		}
-		val := uint16(fval)
-		uintv.value = &val
+		val := int16(fval)
+		intv.value = &val
 	case float64:
 		fval := value.(float64)
-		if fval < 0 || fval > math.MaxUint16 {
+		if fval > math.MaxInt16 {
 			gbox.WARN("Data overflow during type conversion. value: %v", fval)
 		}
-		val := uint16(fval)
-		uintv.value = &val
+		val := int16(fval)
+		intv.value = &val
 	}
 
-	return uintv
+	return intv
 }
 
 // String Returns the string value of this object, implements the Stringer interface.
-func (u UInt16) String() string {
-	if u.IsNil() {
+func (i Int16) String() string {
+	if i.IsNil() {
 		return "NaN"
 	}
-	return fmt.Sprintf("%v", *u.value)
+	return fmt.Sprintf("%v", *i.value)
 }
 
-// UIntValue Returns the numeric value of this object
-func (u UInt16) UIntValue() uint16 {
-	if u.IsNil() {
+// Int16Value Returns the numeric value of this object
+func (i Int16) Int16Value() int16 {
+	if i.IsNil() {
 		return 0
 	}
-	return *u.value
+	return *i.value
 }
 
 // IsNil Check if the object is empty
-func (u UInt16) IsNil() bool {
-	return u.value == nil
+func (i Int16) IsNil() bool {
+	return i.value == nil
 }
 
 // MarshalJSON implements the encoding json interface.
-func (u UInt16) MarshalJSON() ([]byte, error) {
-	return json.Marshal(u.value)
+func (i Int16) MarshalJSON() ([]byte, error) {
+	return json.Marshal(i.value)
 }
 
 // UnmarshalJSON implements the encoding json interface.
-func (u *UInt16) UnmarshalJSON(data []byte) error {
+func (i *Int16) UnmarshalJSON(data []byte) error {
 	sval := strings.Trim(string(data), "\"")
 	if !v.RegexpNumeric.MatchString(sval) {
-		u.value = nil
+		i.value = nil
 		return nil
 	}
 	var value interface{}
@@ -179,32 +172,32 @@ func (u *UInt16) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	if value == nil {
-		u.value = nil
+		i.value = nil
 		return nil
 	}
-	uintv := NewUInt16(value)
-	u.value = uintv.value
+	intv := NewInt16(value)
+	i.value = intv.value
 	return nil
 }
 
 // Value implements the driver Valuer interface.
-func (u UInt16) Value() (driver.Value, error) {
-	if u.IsNil() {
+func (i Int16) Value() (driver.Value, error) {
+	if i.IsNil() {
 		return nil, nil
 	}
-	return *u.value, nil
+	return *i.value, nil
 }
 
 // Scan implements the driver Scanner interface.
-func (u *UInt16) Scan(value interface{}) error {
+func (i *Int16) Scan(value interface{}) error {
 	if value == nil {
-		u.value = nil
+		i.value = nil
 		return nil
 	}
-	if val, ok := value.(uint16); !ok {
-		return errors.New(fmt.Sprint("Failed to unmarshal uint16 value:", value))
+	if val, ok := value.(int16); !ok {
+		return errors.New(fmt.Sprint("Failed to unmarshal int16 value:", value))
 	} else {
-		u.value = &val
+		i.value = &val
 	}
 	return nil
 }

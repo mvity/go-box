@@ -17,111 +17,105 @@ import (
 	"strings"
 )
 
-// Int32 A nullable safe type, based on Golang basic type, supports JSON escape, Database field definition
-type Int32 struct {
-	value *int32
+// Int A nullable safe type, based on Golang basic type, supports JSON escape, Database field definition
+type Int struct {
+	value *int
 }
 
-// NewInt32 Generates a new object of type t.Int32 based on the specified value
+// NewInt Generates a new object of type t.Int based on the specified value
 // Warning: When value is passed in as uint(X) and float(X), be aware of data overflow and loss of precision
-func NewInt32(value interface{}) Int32 {
-	intv := Int32{}
+func NewInt(value interface{}) Int {
+	intv := Int{}
 	if value == nil {
 		return intv
 	}
 	switch value.(type) {
 	case bool:
-		var val int32 = 0
+		var val = 0
 		if value.(bool) {
 			val = 1
 		}
 		intv.value = &val
 	case string:
-		sval := value.(string)
+		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
 				fval, _ := strconv.ParseFloat(value.(string), 64)
-				if fval > math.MaxInt32 {
+				if fval > math.MaxInt {
 					gbox.WARN("Data overflow during type conversion. value: %v", fval)
 				}
-				val := int32(fval)
+				val := int(fval)
 				intv.value = &val
 			} else {
 				ival, _ := strconv.ParseInt(value.(string), 10, 64)
-				if ival > math.MaxInt32 {
+				if ival > math.MaxInt {
 					gbox.WARN("Data overflow during type conversion. value: %v", ival)
 				}
-				val := int32(ival)
+				val := int(ival)
 				intv.value = &val
 			}
 		}
 	case int:
-		ival := value.(int)
-		if ival > math.MaxInt32 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
-		}
-		val := int32(ival)
+		val := value.(int)
 		intv.value = &val
 	case int8:
 		ival := value.(int8)
-		val := int32(ival)
+		val := int(ival)
 		intv.value = &val
 	case int16:
 		ival := value.(int16)
-		val := int32(ival)
+		val := int(ival)
 		intv.value = &val
 	case int32:
-		val := value.(int32)
+		ival := value.(int32)
+		val := int(ival)
 		intv.value = &val
 	case int64:
 		ival := value.(int64)
-		if ival > math.MaxInt32 {
+		if ival > math.MaxInt {
 			gbox.WARN("Data overflow during type conversion. value: %v", ival)
 		}
-		val := int32(ival)
+		val := int(ival)
 		intv.value = &val
 	case uint:
 		uval := value.(uint)
-		if uval > math.MaxInt32 {
+		if uval > math.MaxInt {
 			gbox.WARN("Data overflow during type conversion. value: %v", uval)
 		}
-		val := int32(uval)
+		val := int(uval)
 		intv.value = &val
 	case uint8:
 		uval := value.(uint8)
-		val := int32(uval)
+		val := int(uval)
 		intv.value = &val
 	case uint16:
 		uval := value.(uint16)
-		val := int32(uval)
+		val := int(uval)
 		intv.value = &val
 	case uint32:
 		uval := value.(uint32)
-		if uval > math.MaxInt32 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
-		}
-		val := int32(uval)
+		val := int(uval)
 		intv.value = &val
 	case uint64:
 		uval := value.(uint64)
-		if uval > math.MaxInt32 {
+		if uval > math.MaxInt {
 			gbox.WARN("Data overflow during type conversion. value: %v", uval)
 		}
-		val := int32(uval)
+		val := int(uval)
 		intv.value = &val
 	case float32:
 		fval := value.(float32)
-		if fval > math.MaxInt32 {
+		if fval > math.MaxInt {
 			gbox.WARN("Data overflow during type conversion. value: %v", fval)
 		}
-		val := int32(fval)
+		val := int(fval)
 		intv.value = &val
 	case float64:
 		fval := value.(float64)
-		if fval > math.MaxInt32 {
+		if fval > math.MaxInt {
 			gbox.WARN("Data overflow during type conversion. value: %v", fval)
 		}
-		val := int32(fval)
+		val := int(fval)
 		intv.value = &val
 	}
 
@@ -129,15 +123,15 @@ func NewInt32(value interface{}) Int32 {
 }
 
 // String Returns the string value of this object, implements the Stringer interface.
-func (i Int32) String() string {
+func (i Int) String() string {
 	if i.IsNil() {
 		return "NaN"
 	}
 	return fmt.Sprintf("%v", *i.value)
 }
 
-// Int32Value Returns the numeric value of this object
-func (i Int32) Int32Value() int32 {
+// IntValue Returns the numeric value of this object
+func (i Int) IntValue() int {
 	if i.IsNil() {
 		return 0
 	}
@@ -145,17 +139,17 @@ func (i Int32) Int32Value() int32 {
 }
 
 // IsNil Check if the object is empty
-func (i Int32) IsNil() bool {
+func (i Int) IsNil() bool {
 	return i.value == nil
 }
 
 // MarshalJSON implements the encoding json interface.
-func (i Int32) MarshalJSON() ([]byte, error) {
+func (i Int) MarshalJSON() ([]byte, error) {
 	return json.Marshal(i.value)
 }
 
 // UnmarshalJSON implements the encoding json interface.
-func (i *Int32) UnmarshalJSON(data []byte) error {
+func (i *Int) UnmarshalJSON(data []byte) error {
 	sval := strings.Trim(string(data), "\"")
 	if !v.RegexpNumeric.MatchString(sval) {
 		i.value = nil
@@ -169,13 +163,13 @@ func (i *Int32) UnmarshalJSON(data []byte) error {
 		i.value = nil
 		return nil
 	}
-	intv := NewInt32(value)
+	intv := NewInt(value)
 	i.value = intv.value
 	return nil
 }
 
 // Value implements the driver Valuer interface.
-func (i Int32) Value() (driver.Value, error) {
+func (i Int) Value() (driver.Value, error) {
 	if i.IsNil() {
 		return nil, nil
 	}
@@ -183,13 +177,13 @@ func (i Int32) Value() (driver.Value, error) {
 }
 
 // Scan implements the driver Scanner interface.
-func (i *Int32) Scan(value interface{}) error {
+func (i *Int) Scan(value interface{}) error {
 	if value == nil {
 		i.value = nil
 		return nil
 	}
-	if val, ok := value.(int32); !ok {
-		return errors.New(fmt.Sprint("Failed to unmarshal int32 value:", value))
+	if val, ok := value.(int); !ok {
+		return errors.New(fmt.Sprint("Failed to unmarshal int value:", value))
 	} else {
 		i.value = &val
 	}

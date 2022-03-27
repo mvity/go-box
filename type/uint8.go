@@ -17,118 +17,130 @@ import (
 	"strings"
 )
 
-// UInt32 A nullable safe type, based on Golang basic type, supports JSON escape, Database field definition
-type UInt32 struct {
-	value *uint32
+// UInt8 A nullable safe type, based on Golang basic type, supports JSON escape, Database field definition
+type UInt8 struct {
+	value *uint8
 }
 
-// NewUInt32 Generates a new object of type t.UInt32 based on the specified value
+// NewUInt8 Generates a new object of type t.UInt8 based on the specified value
 // Warning: When value is passed in as uint(X) and float(X), be aware of data overflow and loss of precision
-func NewUInt32(value interface{}) UInt32 {
-	uintv := UInt32{}
+func NewUInt8(value interface{}) UInt8 {
+	uintv := UInt8{}
 	if value == nil {
 		return uintv
 	}
 	switch value.(type) {
 	case bool:
-		var val uint32 = 0
+		var val uint8 = 0
 		if value.(bool) {
 			val = 1
 		}
 		uintv.value = &val
 	case string:
-		sval := value.(string)
+		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
 				fval, _ := strconv.ParseFloat(value.(string), 64)
-				if fval < 0 || fval > math.MaxUint32 {
+				if fval < 0 || fval > math.MaxUint8 {
 					gbox.WARN("Data overflow during type conversion. value: %v", fval)
 				}
-				val := uint32(fval)
+				val := uint8(fval)
 				uintv.value = &val
 			} else if strings.Contains(sval, "-") {
 				ival, _ := strconv.ParseInt(value.(string), 10, 64)
-				if ival < 0 || ival > math.MaxUint32 {
+				if ival < 0 || ival > math.MaxUint8 {
 					gbox.WARN("Data overflow during type conversion. value: %v", ival)
 				}
-				val := uint32(ival)
+				val := uint8(ival)
 				uintv.value = &val
 			} else {
 				ival, _ := strconv.ParseUint(value.(string), 10, 64)
-				if ival < 0 || ival > math.MaxUint32 {
+				if ival < 0 || ival > math.MaxUint8 {
 					gbox.WARN("Data overflow during type conversion. value: %v", ival)
 				}
-				val := uint32(ival)
+				val := uint8(ival)
 				uintv.value = &val
 			}
 		}
 	case int:
 		ival := value.(int)
-		if ival < 0 || ival > math.MaxUint32 {
+		if ival < 0 || ival > math.MaxUint8 {
 			gbox.WARN("Data overflow during type conversion. value: %v", ival)
 		}
-		val := uint32(ival)
+		val := uint8(ival)
 		uintv.value = &val
 	case int8:
 		ival := value.(int8)
 		if ival < 0 {
 			gbox.WARN("Data overflow during type conversion. value: %v", ival)
 		}
-		val := uint32(ival)
+		val := uint8(ival)
 		uintv.value = &val
 	case int16:
 		ival := value.(int16)
-		val := uint32(ival)
+		if ival < 0 || ival > math.MaxUint8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		}
+		val := uint8(ival)
 		uintv.value = &val
 	case int32:
 		ival := value.(int32)
-		val := uint32(ival)
+		if ival < 0 || ival > math.MaxUint8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		}
+		val := uint8(ival)
 		uintv.value = &val
 	case int64:
 		ival := value.(int64)
-		if ival < 0 || ival > math.MaxUint32 {
+		if ival < 0 || ival > math.MaxUint8 {
 			gbox.WARN("Data overflow during type conversion. value: %v", ival)
 		}
-		val := uint32(ival)
+		val := uint8(ival)
 		uintv.value = &val
 	case uint:
 		uval := value.(uint)
-		if uval > math.MaxUint32 {
+		if uval > math.MaxUint8 {
 			gbox.WARN("Data overflow during type conversion. value: %v", uval)
 		}
-		val := uint32(uval)
+		val := uint8(uval)
 		uintv.value = &val
 	case uint8:
-		uval := value.(uint8)
-		val := uint32(uval)
+		val := value.(uint8)
 		uintv.value = &val
 	case uint16:
 		uval := value.(uint16)
-		val := uint32(uval)
+		if uval > math.MaxUint8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		}
+		val := uint8(uval)
 		uintv.value = &val
 	case uint32:
-		val := value.(uint32)
+		uval := value.(uint32)
+		if uval > math.MaxUint8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		}
+		val := uint8(uval)
 		uintv.value = &val
 	case uint64:
 		uval := value.(uint64)
-		if uval > math.MaxUint32 {
+		if uval > math.MaxUint8 {
 			gbox.WARN("Data overflow during type conversion. value: %v", uval)
 		}
-		val := uint32(uval)
+		val := uint8(uval)
 		uintv.value = &val
 	case float32:
 		fval := value.(float32)
-		if fval < 0 || fval > math.MaxUint32 {
+		if fval < 0 || fval > math.MaxUint8 {
 			gbox.WARN("Data overflow during type conversion. value: %v", fval)
 		}
-		val := uint32(fval)
+		val := uint8(fval)
 		uintv.value = &val
 	case float64:
 		fval := value.(float64)
-		if fval < 0 || fval > math.MaxUint32 {
+		if fval < 0 || fval > math.MaxUint8 {
 			gbox.WARN("Data overflow during type conversion. value: %v", fval)
 		}
-		val := uint32(fval)
+		val := uint8(fval)
 		uintv.value = &val
 	}
 
@@ -136,7 +148,7 @@ func NewUInt32(value interface{}) UInt32 {
 }
 
 // String Returns the string value of this object, implements the Stringer interface.
-func (u UInt32) String() string {
+func (u UInt8) String() string {
 	if u.IsNil() {
 		return "NaN"
 	}
@@ -144,7 +156,7 @@ func (u UInt32) String() string {
 }
 
 // UIntValue Returns the numeric value of this object
-func (u UInt32) UIntValue() uint32 {
+func (u UInt8) UIntValue() uint8 {
 	if u.IsNil() {
 		return 0
 	}
@@ -152,17 +164,17 @@ func (u UInt32) UIntValue() uint32 {
 }
 
 // IsNil Check if the object is empty
-func (u UInt32) IsNil() bool {
+func (u UInt8) IsNil() bool {
 	return u.value == nil
 }
 
 // MarshalJSON implements the encoding json interface.
-func (u UInt32) MarshalJSON() ([]byte, error) {
+func (u UInt8) MarshalJSON() ([]byte, error) {
 	return json.Marshal(u.value)
 }
 
 // UnmarshalJSON implements the encoding json interface.
-func (u *UInt32) UnmarshalJSON(data []byte) error {
+func (u *UInt8) UnmarshalJSON(data []byte) error {
 	sval := strings.Trim(string(data), "\"")
 	if !v.RegexpNumeric.MatchString(sval) {
 		u.value = nil
@@ -176,13 +188,13 @@ func (u *UInt32) UnmarshalJSON(data []byte) error {
 		u.value = nil
 		return nil
 	}
-	uintv := NewUInt32(value)
+	uintv := NewUInt8(value)
 	u.value = uintv.value
 	return nil
 }
 
 // Value implements the driver Valuer interface.
-func (u UInt32) Value() (driver.Value, error) {
+func (u UInt8) Value() (driver.Value, error) {
 	if u.IsNil() {
 		return nil, nil
 	}
@@ -190,13 +202,13 @@ func (u UInt32) Value() (driver.Value, error) {
 }
 
 // Scan implements the driver Scanner interface.
-func (u *UInt32) Scan(value interface{}) error {
+func (u *UInt8) Scan(value interface{}) error {
 	if value == nil {
 		u.value = nil
 		return nil
 	}
-	if val, ok := value.(uint32); !ok {
-		return errors.New(fmt.Sprint("Failed to unmarshal uint32 value:", value))
+	if val, ok := value.(uint8); !ok {
+		return errors.New(fmt.Sprint("Failed to unmarshal uint8 value:", value))
 	} else {
 		u.value = &val
 	}

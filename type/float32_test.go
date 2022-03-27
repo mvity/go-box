@@ -11,7 +11,7 @@ import (
 	"testing"
 )
 
-func TestNewBool(t *testing.T) {
+func TestNewFloat32(t *testing.T) {
 	var intValue1 = math.MaxInt - 1
 	var intValue2 = math.MinInt + 1
 	var int8Value1 int8 = math.MaxInt8 - 1
@@ -36,20 +36,20 @@ func TestNewBool(t *testing.T) {
 		int32Value1, int32Value2, int64Value1, int64Value2,
 		uintValue, uint8Value, uint16Value, uint32Value, uint64Value,
 		float32Value1, float32Value2, float64Value1, float64Value2, true, false,
-		"abcd", '2', "234", "0", "yes", "no", "ok", "-345", "456.789", "0.0.0.0", nil, func() {}, []string{}, struct{}{},
+		"abcd", '2', "234", "-345", "456.789", "0.0.0.0", nil, func() {}, []string{}, struct{}{},
 	}
 	for _, value := range values {
-		intv := NewBool(value)
-		t.Logf("valid, type: %T, ok? %v, value: %v, intv: %v ", value, !intv.IsNil(), value, intv.String())
+		f32v := NewFloat32(value)
+		t.Logf("valid, type: %T, ok? %v, value: %v, f32v: %v ", value, !f32v.IsNil(), value, f32v.String())
 
 	}
 }
 
-type testBoolObj struct {
-	Value Bool `json:"value"`
+type testFloat32Obj struct {
+	Value Float32 `json:"value"`
 }
 
-func TestMarshalJSONBool(t *testing.T) {
+func TestMarshalJSONFloat32(t *testing.T) {
 	var intValue1 = math.MaxInt - 1
 	var intValue2 = math.MinInt + 1
 	var int8Value1 int8 = math.MaxInt8 - 1
@@ -74,12 +74,12 @@ func TestMarshalJSONBool(t *testing.T) {
 		int32Value1, int32Value2, int64Value1, int64Value2,
 		uintValue, uint8Value, uint16Value, uint32Value, uint64Value,
 		float32Value1, float32Value2, float64Value1, float64Value2, true, false,
-		"abcd", '2', "234", "0", "yes", "no", "ok", "-345", "456.789", "0.0.0.0", nil, func() {}, []string{}, struct{}{},
+		"abcd", '2', "234", "-345", "456.789", "0.0.0.0", nil, func() {}, []string{}, struct{}{},
 	}
-	var objs []testBoolObj
+	var objs []testFloat32Obj
 	for _, value := range values {
-		obj := testBoolObj{
-			NewBool(value),
+		obj := testFloat32Obj{
+			NewFloat32(value),
 		}
 		objs = append(objs, obj)
 	}
@@ -92,7 +92,7 @@ func TestMarshalJSONBool(t *testing.T) {
 	}
 }
 
-func TestUnmarshalJSONBool(t *testing.T) {
+func TestUnmarshalJSONFloat32(t *testing.T) {
 
 	values := []string{
 		"{\"value\":9223372036854775806}",
@@ -120,10 +120,6 @@ func TestUnmarshalJSONBool(t *testing.T) {
 		"{\"value\":\"234\"}",
 		"{\"value\":\"-345\"}",
 		"{\"value\":\"456.789\"}",
-		"{\"value\":\"0\"}",
-		"{\"value\":\"yes\"}",
-		"{\"value\":\"No\"}",
-		"{\"value\":\"OK\"}",
 		"{\"value\":\"0.0.0.0\"}",
 		"{\"value\":null}",
 		"{\"value\":true}",
@@ -132,12 +128,12 @@ func TestUnmarshalJSONBool(t *testing.T) {
 		"{\"value\":[]}",
 	}
 	for _, value := range values {
-		var result testBoolObj
+		var result testFloat32Obj
 		if err := json.Unmarshal([]byte(value), &result); err != nil {
 			t.Fatalf("error. value: %v , err: %v ", value, err)
 		} else {
-			t.Logf("valid, value: %v > nil:%v, %v,%t", value, result.Value.IsNil(), result.Value.String(),
-				result.Value.BoolValue())
+			t.Logf("valid, value: %v > nil:%v, %v,%f", value, result.Value.IsNil(), result.Value.String(),
+				result.Value.Float32Value())
 		}
 	}
 }

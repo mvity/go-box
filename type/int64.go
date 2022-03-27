@@ -8,7 +8,6 @@ package t
 import (
 	"database/sql/driver"
 	"encoding/json"
-	"errors"
 	"fmt"
 	gbox "github.com/mvity/go-box"
 	v "github.com/mvity/go-box/validator"
@@ -160,8 +159,7 @@ func (i *Int64) UnmarshalJSON(data []byte) error {
 		i.value = nil
 		return nil
 	}
-	intv := NewInt64(value)
-	i.value = intv.value
+	i.value = NewInt64(value).value
 	return nil
 }
 
@@ -175,14 +173,15 @@ func (i Int64) Value() (driver.Value, error) {
 
 // Scan implements the driver Scanner interface.
 func (i *Int64) Scan(value interface{}) error {
-	if value == nil {
-		i.value = nil
-		return nil
-	}
-	if val, ok := value.(int64); !ok {
-		return errors.New(fmt.Sprint("Failed to unmarshal int64 value:", value))
-	} else {
-		i.value = &val
-	}
+	//if value == nil {
+	//	i.value = nil
+	//	return nil
+	//}
+	//if val, ok := value.(int64); !ok {
+	//	return errors.New(fmt.Sprint("Failed to unmarshal int64 value:", value))
+	//} else {
+	//	i.value = &val
+	//}
+	i.value = NewInt64(value).value
 	return nil
 }

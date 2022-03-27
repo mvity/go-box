@@ -8,9 +8,7 @@ package t
 import (
 	"database/sql/driver"
 	"encoding/json"
-	"errors"
 	"fmt"
-	v "github.com/mvity/go-box/validator"
 	"strings"
 )
 
@@ -115,11 +113,7 @@ func (s String) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements the encoding json interface.
 func (s *String) UnmarshalJSON(data []byte) error {
-	sval := strings.Trim(string(data), "\"")
-	if !v.RegexpNumeric.MatchString(sval) {
-		s.value = nil
-		return nil
-	}
+	sval := string(data)
 	var value interface{}
 	if err := json.Unmarshal([]byte(sval), &value); err != nil {
 		return err
@@ -128,8 +122,7 @@ func (s *String) UnmarshalJSON(data []byte) error {
 		s.value = nil
 		return nil
 	}
-	intv := NewString(value)
-	s.value = intv.value
+	s.value = NewString(value).value
 	return nil
 }
 
@@ -143,14 +136,15 @@ func (s String) Value() (driver.Value, error) {
 
 // Scan implements the driver Scanner interface.
 func (s *String) Scan(value interface{}) error {
-	if value == nil {
-		s.value = nil
-		return nil
-	}
-	if val, ok := value.(string); !ok {
-		return errors.New(fmt.Sprint("Failed to unmarshal int value:", value))
-	} else {
-		s.value = &val
-	}
+	//if value == nil {
+	//	s.value = nil
+	//	return nil
+	//}
+	//if val, ok := value.(string); !ok {
+	//	return errors.New(fmt.Sprint("Failed to unmarshal int value:", value))
+	//} else {
+	//	s.value = &val
+	//}
+	s.value = NewString(value).value
 	return nil
 }

@@ -5,10 +5,17 @@
 
 package k
 
-// InStringSlice Checks if slice contains the specified element
-func InStringSlice(value string, slice []string) bool {
-	for _, val := range slice {
-		if val == value {
+import "reflect"
+
+// SliceEmpty  返回一个空Slice
+func SliceEmpty() []any {
+	return make([]any, 0)
+}
+
+// SliceContains 检查指定元素是否包含在Slice内
+func SliceContains(value any, slice []any) bool {
+	for _, item := range slice {
+		if reflect.DeepEqual(value, item) {
 			return true
 		}
 	}

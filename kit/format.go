@@ -8,6 +8,7 @@ package k
 import (
 	"fmt"
 	"strings"
+	"time"
 )
 
 // FormatChinaMoney 格式化人民币，从分到元
@@ -23,4 +24,28 @@ func FormatKilometer(value int64, scale uint8) string {
 	}
 	str := strs[0] + "." + strs[1][:scale]
 	return str
+}
+
+// FormatDateTime 格式化时间为 2006-01-02 15:04:05 格式
+func FormatDateTime(dt time.Time) string {
+	if dt.IsZero() {
+		return ""
+	}
+	return dt.Format("2006-01-02 15:04:05")
+}
+
+// FormatDate 格式化时间为 2006-01-02 格式
+func FormatDate(dt time.Time) string {
+	if dt.IsZero() {
+		return ""
+	}
+	return dt.Format("2006-01-02")
+}
+
+// FormatTime 格式化时间为 15:04:05 格式
+func FormatTime(dt time.Time) string {
+	if dt.IsZero() {
+		return ""
+	}
+	return dt.Format("15:04:05")
 }

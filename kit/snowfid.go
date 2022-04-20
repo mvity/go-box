@@ -41,7 +41,7 @@ func SnowfIDWorker(workerId, startTime int64) *snowfIDWorker {
 	}
 }
 
-func (w *snowfIDWorker) SnowfID() uint64 {
+func (w *snowfIDWorker) GetID() uint64 {
 	w.mu.Lock()
 	defer w.mu.Unlock()
 	nowTime := time.Now()

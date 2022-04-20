@@ -12,8 +12,8 @@ import (
 	"encoding/base64"
 )
 
-// CryptoAESEncrypt AES 加密内容 AES-128/CBC/PKCS5Padding ，key：32，iv：16
-func CryptoAESEncrypt(key string, iv string, data string) string {
+// AESEncrypt AES 加密内容 AES-128/CBC/PKCS5Padding ，key：32，iv：16
+func AESEncrypt(key string, iv string, data string) string {
 	block, _ := aes.NewCipher([]byte(key))
 	cbc := cipher.NewCBCEncrypter(block, []byte(iv))
 	content := []byte(data)
@@ -25,8 +25,8 @@ func CryptoAESEncrypt(key string, iv string, data string) string {
 	return base64.StdEncoding.EncodeToString(crypted)
 }
 
-// CryptoAESDecrypt AES 解密内容 AES-128/CBC/PKCS5Padding ，key：32，iv：16
-func CryptoAESDecrypt(key string, iv string, data string) string {
+// AESDecrypt AES 解密内容 AES-128/CBC/PKCS5Padding ，key：32，iv：16
+func AESDecrypt(key string, iv string, data string) string {
 	crypt, _ := base64.StdEncoding.DecodeString(data)
 	block, _ := aes.NewCipher([]byte(key))
 	cbc := cipher.NewCBCDecrypter(block, []byte(iv))

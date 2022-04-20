@@ -11,15 +11,15 @@ import (
 	"encoding/hex"
 )
 
-// DigestMD5String 对字符串MD5处理
-func DigestMD5String(plain string) string {
+// MD5String 对字符串MD5处理
+func MD5String(plain string) string {
 	hMD5 := md5.New()
 	hMD5.Write([]byte(plain))
 	return hex.EncodeToString(hMD5.Sum(nil))
 }
 
-// DigestSHA256String  对字符串SHA256处理
-func DigestSHA256String(plain string) string {
+// SHA256String  对字符串SHA256处理
+func SHA256String(plain string) string {
 	hSha256 := sha256.New()
 	hSha256.Write([]byte(plain))
 	return hex.EncodeToString(hSha256.Sum(nil))

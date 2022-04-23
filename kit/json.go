@@ -107,8 +107,8 @@ func (jn *JsonNode) ToMap() map[string]any {
 }
 
 // ToSlice 转换为Slice对象
-func (jn *JsonNode) ToSlice() []any {
-	var s []any
+func (jn *JsonNode) ToSlice() []map[string]any {
+	var s []map[string]any
 	_ = json.Unmarshal([]byte(*jn.rawString), &s)
 	return s
 }

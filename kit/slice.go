@@ -13,7 +13,7 @@ func SliceEmpty() []any {
 }
 
 // SliceContains 检查指定元素是否包含在Slice内
-func SliceContains(value any, slice []any) bool {
+func SliceContains[T any](value T, slice []T) bool {
 	for _, item := range slice {
 		if reflect.DeepEqual(value, item) {
 			return true

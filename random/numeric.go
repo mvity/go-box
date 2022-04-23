@@ -10,8 +10,14 @@ import (
 	"time"
 )
 
-// RandomFloat64 生成随机Float64数字
-func RandomFloat64() float64 {
-	rand.Seed(time.Now().UnixMilli())
-	return rand.Float64()
+// RandomInt 随机生成指定区间的数字
+func RandomInt(min int64, max int64) int64 {
+	if min == max {
+		return min
+	}
+	if min > max {
+		min, max = max, min
+	}
+	rand.Seed(time.Now().UnixNano())
+	return rand.Int63n(max-min) + min
 }

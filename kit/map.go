@@ -7,5 +7,5 @@ package k
 
 // MapEmpty  返回一个空Map
 func MapEmpty() any {
-	return make(map[any]any)
+	return make(map[string]any)
 }

@@ -6,6 +6,7 @@
 package k
 
 import (
+	"strconv"
 	"strings"
 	"time"
 )
@@ -44,4 +45,21 @@ func ParseTime(value string) time.Time {
 		panic(err)
 	}
 	return t
+}
+
+// ParseLocation 转换 lng,lat 格式经纬度字符串，例：113.617525,34.751782
+func ParseLocation(value string) (float64, float64) {
+	if strings.TrimSpace(value) == "" || strings.Contains(value, ",") {
+		return 0, 0
+	}
+	locs := strings.Split(value, ",")
+	lng, err := strconv.ParseFloat(locs[0], 64) // 经度
+	if err != nil {
+		panic(err)
+	}
+	lat, err := strconv.ParseFloat(locs[1], 64) // 纬度
+	if err != nil {
+		panic(err)
+	}
+	return lng, lat
 }

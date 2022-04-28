@@ -8,8 +8,8 @@ package k
 import "reflect"
 
 // SliceEmpty  返回一个空Slice
-func SliceEmpty() []any {
-	return make([]any, 0)
+func SliceEmpty[T any]() []T {
+	return make([]T, 0)
 }
 
 // SliceContains 检查指定元素是否包含在Slice内

@@ -6,6 +6,6 @@
 package k
 
 // MapEmpty  返回一个空Map
-func MapEmpty() any {
-	return make(map[string]any)
+func MapEmpty[T any]() map[string]T {
+	return make(map[string]T)
 }

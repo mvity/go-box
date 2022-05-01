@@ -99,51 +99,58 @@ func ParseJSONStringForce(val string, array bool) *JsonNode {
 	}
 }
 
-// ToMap 转换为Map对象
-func (jn *JsonNode) ToMap() map[string]any {
+// ToMap 转换为map对象  map[string]any
+func (n *JsonNode) ToMap() map[string]any {
 	var m map[string]any
-	_ = json.Unmarshal([]byte(*jn.rawString), &m)
+	_ = json.Unmarshal([]byte(*n.rawString), &m)
 	return m
 }
 
-// ToSlice 转换为Slice对象
-func (jn *JsonNode) ToSlice() []map[string]any {
+// ToSlice 转换为slice []map[string]any
+func (n *JsonNode) ToSlice() []map[string]any {
 	var s []map[string]any
-	_ = json.Unmarshal([]byte(*jn.rawString), &s)
+	_ = json.Unmarshal([]byte(*n.rawString), &s)
 	return s
 }
 
+// ToArray 转换为array []any
+func (n *JsonNode) ToArray() []any {
+	var a []any
+	_ = json.Unmarshal([]byte(*n.rawString), &a)
+	return a
+}
+
 // IsEmpty 是否空JSON
-func (jn *JsonNode) IsEmpty() bool {
-	return jn.Size() == 0
+func (n *JsonNode) IsEmpty() bool {
+	return n.Size() == 0
 }
 
 // IsArray 是否JSONArray类型
-func (jn *JsonNode) IsArray() bool {
-	return jn.object == nil && jn.array != nil
+func (n *JsonNode) IsArray() bool {
+	return n.object == nil && n.array != nil
 }
 
 // IsObject 是否JSONObject 类型
-func (jn *JsonNode) IsObject() bool {
-	return jn.object != nil && jn.array == nil
+func (n *JsonNode) IsObject() bool {
+	return n.object != nil && n.array == nil
 }
 
 // Size 长度，对象类型：字段个数，数组类型：数组长度
-func (jn *JsonNode) Size() int {
-	if jn.IsArray() {
-		return len(jn.array)
-	} else if jn.IsObject() {
-		return len(jn.object)
+func (n *JsonNode) Size() int {
+	if n.IsArray() {
+		return len(n.array)
+	} else if n.IsObject() {
+		return len(n.object)
 	}
 	return 0
 }
 
 // Keys 获取JSON对象所有字段名称
-func (jn *JsonNode) Keys() []string {
-	if jn.IsObject() && !jn.IsEmpty() {
+func (n *JsonNode) Keys() []string {
+	if n.IsObject() && !n.IsEmpty() {
 		i := 0
-		keys := make([]string, len(jn.object))
-		for k := range jn.object {
+		keys := make([]string, len(n.object))
+		for k := range n.object {
 			keys[i] = k
 			i++
 		}
@@ -153,45 +160,45 @@ func (jn *JsonNode) Keys() []string {
 }
 
 // Name 获取JSON对象指定字段的值
-func (jn *JsonNode) Name(key string) *JsonNode {
-	if jn.IsObject() && !jn.IsEmpty() {
-		return jn.object[key]
+func (n *JsonNode) Name(key string) *JsonNode {
+	if n.IsObject() && !n.IsEmpty() {
+		return n.object[key]
 	}
 	return nil
 }
 
 // Index 获取JSON数组指定索引的值
-func (jn *JsonNode) Index(index int) *JsonNode {
-	if jn.IsArray() && !jn.IsEmpty() && index < jn.Size() {
-		return jn.array[index]
+func (n *JsonNode) Index(index int) *JsonNode {
+	if n.IsArray() && !n.IsEmpty() && index < n.Size() {
+		return n.array[index]
 	}
 	return nil
 }
 
 // String 获取JSON字段指定的值内容，string 类型
-func (jn *JsonNode) String() string {
-	if jn == nil && jn.rawString == nil {
+func (n *JsonNode) String() string {
+	if n == nil && n.rawString == nil {
 		panic(errors.New("invalid string value"))
 	}
-	return *jn.rawString
+	return *n.rawString
 }
 
 // Int64 获取JSON字段指定的值内容，int64类型
-func (jn *JsonNode) Int64() int64 {
-	if jn == nil && jn.value == nil {
+func (n *JsonNode) Int64() int64 {
+	if n == nil && n.value == nil {
 		panic(errors.New("invalid number value"))
 	}
-	switch jn.jType {
+	switch n.jType {
 	case jsonString:
-		if val, err := strconv.ParseFloat(jn.value.(string), 64); err == nil {
+		if val, err := strconv.ParseFloat(n.value.(string), 64); err == nil {
 			return int64(val)
 		} else {
 			panic(errors.New("invalid number value"))
 		}
 	case jsonNumber:
-		return int64(jn.value.(float64))
+		return int64(n.value.(float64))
 	case jsonBoolean:
-		if jn.value.(bool) {
+		if n.value.(bool) {
 			return 1
 		} else {
 			return 0
@@ -201,21 +208,21 @@ func (jn *JsonNode) Int64() int64 {
 }
 
 // Float64 获取JSON字段指定的值内容，float64类型
-func (jn *JsonNode) Float64() float64 {
-	if jn == nil && jn.value == nil {
+func (n *JsonNode) Float64() float64 {
+	if n == nil && n.value == nil {
 		panic(errors.New("invalid number value"))
 	}
-	switch jn.jType {
+	switch n.jType {
 	case jsonString:
-		if val, err := strconv.ParseFloat(jn.value.(string), 64); err == nil {
+		if val, err := strconv.ParseFloat(n.value.(string), 64); err == nil {
 			return val
 		} else {
 			panic(errors.New("invalid number value"))
 		}
 	case jsonNumber:
-		return jn.value.(float64)
+		return n.value.(float64)
 	case jsonBoolean:
-		if jn.value.(bool) {
+		if n.value.(bool) {
 			return 1
 		} else {
 			return 0
@@ -226,32 +233,32 @@ func (jn *JsonNode) Float64() float64 {
 }
 
 // Boolean 获取JSON字段指定的值内容，bool 类型
-func (jn *JsonNode) Boolean() bool {
-	if jn == nil && jn.value == nil {
+func (n *JsonNode) Boolean() bool {
+	if n == nil && n.value == nil {
 		panic(errors.New("invalid boolean value"))
 	}
-	switch jn.jType {
+	switch n.jType {
 	case jsonString:
-		if strings.EqualFold(strings.ToLower(jn.value.(string)), "true") {
+		if strings.EqualFold(strings.ToLower(n.value.(string)), "true") {
 			return true
-		} else if strings.EqualFold(strings.ToLower(jn.value.(string)), "false") {
+		} else if strings.EqualFold(strings.ToLower(n.value.(string)), "false") {
 			return false
 		}
 		panic(errors.New("invalid boolean value"))
 	case jsonNumber:
-		return int64(jn.value.(float64)) > 0
+		return int64(n.value.(float64)) > 0
 	case jsonBoolean:
-		return jn.value.(bool)
+		return n.value.(bool)
 	}
 	panic(errors.New("invalid boolean value"))
 }
 
 // 从map解析为JSON对象
-func (jn *JsonNode) parseMap(val map[string]any) (*JsonNode, error) {
+func (n *JsonNode) parseMap(val map[string]any) (*JsonNode, error) {
 	node := &JsonNode{}
 	node.object = make(map[string]*JsonNode)
 	for k, v := range val {
-		if n, err := jn.convert(v); err != nil {
+		if n, err := n.convert(v); err != nil {
 			return nil, err
 		} else {
 			node.object[k] = n
@@ -261,11 +268,11 @@ func (jn *JsonNode) parseMap(val map[string]any) (*JsonNode, error) {
 }
 
 // 从列表解析为JSON对象
-func (jn *JsonNode) parseSlice(val []any) (*JsonNode, error) {
+func (n *JsonNode) parseSlice(val []any) (*JsonNode, error) {
 	node := &JsonNode{}
 	node.array = make([]*JsonNode, len(val), len(val))
 	for i := 0; i < len(val); i++ {
-		if n, err := jn.convert(val[i]); err != nil {
+		if n, err := n.convert(val[i]); err != nil {
 			return nil, err
 		} else {
 			node.array[i] = n
@@ -276,7 +283,7 @@ func (jn *JsonNode) parseSlice(val []any) (*JsonNode, error) {
 }
 
 // 转换为JSON Value
-func (jn *JsonNode) convert(val any) (*JsonNode, error) {
+func (n *JsonNode) convert(val any) (*JsonNode, error) {
 	//fmt.Printf("Convert -> %value , %T \n", val, val)
 	node := &JsonNode{}
 	if val == nil {
@@ -301,7 +308,7 @@ func (jn *JsonNode) convert(val any) (*JsonNode, error) {
 			node.value = val
 			node.rawString = &raw
 		case []any:
-			if now, err := jn.parseSlice(val.([]any)); err != nil {
+			if now, err := n.parseSlice(val.([]any)); err != nil {
 				return nil, err
 			} else {
 				raw := ToJSONString(val)
@@ -310,7 +317,7 @@ func (jn *JsonNode) convert(val any) (*JsonNode, error) {
 				node.rawString = &raw
 			}
 		case map[string]any:
-			if now, err := jn.parseMap(val.(map[string]any)); err != nil {
+			if now, err := n.parseMap(val.(map[string]any)); err != nil {
 				return nil, err
 			} else {
 				raw := ToJSONString(val)

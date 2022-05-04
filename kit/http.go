@@ -80,7 +80,7 @@ func HttpPostJson(requestUrl string, json string) (bool, string, int) {
 func HttpPostJsonWithHeader(requestUrl string, json string, headers map[string]string) (bool, string, int) {
 	req, err := http.NewRequest("POST", requestUrl, bytes.NewBuffer([]byte(json)))
 	if err != nil {
-		return false, fmt.Sprintf("[%s] %s", "k.HttpPostJson", "Network Create Error："+err.Error()), 0
+		return false, fmt.Sprintf("[%s] %s", "k.HttpPostJsonWithHeader", "Network Create Error："+err.Error()), 0
 	}
 	client := http.Client{}
 	req.Header.Set("Content-Type", "application/json")
@@ -89,14 +89,14 @@ func HttpPostJsonWithHeader(requestUrl string, json string, headers map[string]s
 	}
 	resp, err := client.Do(req)
 	if err != nil {
-		return false, fmt.Sprintf("[%s] %s", "k.HttpPostJson", "Network Request Error："+err.Error()), 0
+		return false, fmt.Sprintf("[%s] %s", "k.HttpPostJsonWithHeader", "Network Request Error："+err.Error()), 0
 	}
 	defer func(Body io.ReadCloser) {
 		_ = Body.Close()
 	}(resp.Body)
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return false, fmt.Sprintf("[%s] %s", "k.HttpPostJson", "Network Response Error："+err.Error()), 0
+		return false, fmt.Sprintf("[%s] %s", "k.HttpPostJsonWithHeader", "Network Response Error："+err.Error()), 0
 	}
 	return true, string(body), resp.StatusCode
 }

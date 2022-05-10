@@ -7,13 +7,13 @@ package k
 
 import "reflect"
 
-// SliceEmpty  返回一个空 slice
-func SliceEmpty[T any]() []T {
+// ArrayEmpty  返回一个空 array
+func ArrayEmpty[T any]() []T {
 	return make([]T, 0)
 }
 
-// SliceContains 检查指定元素是否包含在 slice 内
-func SliceContains[T any](value T, slice []T) bool {
+// ArrayContains 检查指定元素是否包含在 array 内
+func ArrayContains[T any](value T, slice []T) bool {
 	for _, item := range slice {
 		if reflect.DeepEqual(value, item) {
 			return true

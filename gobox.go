@@ -17,7 +17,7 @@ func SetDebug(debug bool) {
 }
 
 // WARN Output console log, only available in Debug mode
-func WARN(format string, v ...interface{}) {
+func WARN(format string, v ...any) {
 	if DEBUG {
 		log.Printf("WARN: "+format, v...)
 	}

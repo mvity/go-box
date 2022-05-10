@@ -23,7 +23,7 @@ type Int struct {
 
 // NewInt Generates a new object of type t.Int based on the specified value
 // Warning: When value is passed in as uint(X) and float(X), be aware of data overflow and loss of precision
-func NewInt(value interface{}) Int {
+func NewInt(value any) Int {
 	intv := Int{}
 	if value == nil {
 		return intv
@@ -154,7 +154,7 @@ func (i *Int) UnmarshalJSON(data []byte) error {
 		i.value = nil
 		return nil
 	}
-	var value interface{}
+	var value any
 	if err := json.Unmarshal([]byte(sval), &value); err != nil {
 		return err
 	}
@@ -171,7 +171,7 @@ func (i Int) Value() (driver.Value, error) {
 }
 
 // Scan implements the driver Scanner interface.
-func (i *Int) Scan(value interface{}) error {
+func (i *Int) Scan(value any) error {
 	i.value = NewInt(value).value
 	return nil
 }

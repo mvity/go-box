@@ -31,7 +31,7 @@ func TestNewInt32(t *testing.T) {
 	var float32Value2 float32 = math.SmallestNonzeroFloat32 + 1
 	var float64Value1 = math.MaxFloat64 - 1
 	var float64Value2 = math.SmallestNonzeroFloat64 + 1
-	values := []interface{}{
+	values := []any{
 		intValue1, intValue2, int8Value1, int8Value2, int16Value1, int16Value2,
 		int32Value1, int32Value2, int64Value1, int64Value2,
 		uintValue, uint8Value, uint16Value, uint32Value, uint64Value,
@@ -69,7 +69,7 @@ func TestMarshalJSONInt32(t *testing.T) {
 	var float32Value2 float32 = math.SmallestNonzeroFloat32 + 1
 	var float64Value1 = math.MaxFloat64 - 1
 	var float64Value2 = math.SmallestNonzeroFloat64 + 1
-	values := []interface{}{
+	values := []any{
 		intValue1, intValue2, int8Value1, int8Value2, int16Value1, int16Value2,
 		int32Value1, int32Value2, int64Value1, int64Value2,
 		uintValue, uint8Value, uint16Value, uint32Value, uint64Value,

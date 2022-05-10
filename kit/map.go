@@ -5,7 +5,21 @@
 
 package k
 
-// MapEmpty  返回一个空Map
+// MapEmpty  返回一个空 map
 func MapEmpty[T any]() map[string]T {
 	return make(map[string]T)
+}
+
+// MapKeys 返回键集合
+func MapKeys(m map[string]any) []string {
+	var keys []string
+	for key := range m {
+		keys = append(keys, key)
+	}
+	return keys
+}
+
+// MapContainsKey 是否包含指定键
+func MapContainsKey(key string, m map[string]any) bool {
+	return SliceContains[string](key, MapKeys(m))
 }

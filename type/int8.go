@@ -23,7 +23,7 @@ type Int8 struct {
 
 // NewInt8 Generates a new object of type t.Int8 based on the specified value
 // Warning: When value is passed in as uint(X) and float(X), be aware of data overflow and loss of precision
-func NewInt8(value interface{}) Int8 {
+func NewInt8(value any) Int8 {
 	intv := Int8{}
 	if value == nil {
 		return intv
@@ -172,7 +172,7 @@ func (i *Int8) UnmarshalJSON(data []byte) error {
 		i.value = nil
 		return nil
 	}
-	var value interface{}
+	var value any
 	if err := json.Unmarshal([]byte(sval), &value); err != nil {
 		return err
 	}
@@ -189,7 +189,7 @@ func (i Int8) Value() (driver.Value, error) {
 }
 
 // Scan implements the driver Scanner interface.
-func (i *Int8) Scan(value interface{}) error {
+func (i *Int8) Scan(value any) error {
 	i.value = NewInt8(value).value
 	return nil
 }

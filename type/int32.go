@@ -23,7 +23,7 @@ type Int32 struct {
 
 // NewInt32 Generates a new object of type t.Int32 based on the specified value
 // Warning: When value is passed in as uint(X) and float(X), be aware of data overflow and loss of precision
-func NewInt32(value interface{}) Int32 {
+func NewInt32(value any) Int32 {
 	intv := Int32{}
 	if value == nil {
 		return intv
@@ -160,7 +160,7 @@ func (i *Int32) UnmarshalJSON(data []byte) error {
 		i.value = nil
 		return nil
 	}
-	var value interface{}
+	var value any
 	if err := json.Unmarshal([]byte(sval), &value); err != nil {
 		return err
 	}
@@ -177,7 +177,7 @@ func (i Int32) Value() (driver.Value, error) {
 }
 
 // Scan implements the driver Scanner interface.
-func (i *Int32) Scan(value interface{}) error {
+func (i *Int32) Scan(value any) error {
 	i.value = NewInt32(value).value
 	return nil
 }

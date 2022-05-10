@@ -101,6 +101,9 @@ func ParseJSONStringForce(val string, array bool) *JsonNode {
 
 // ToMap 转换为map对象  map[string]any
 func (n *JsonNode) ToMap() map[string]any {
+	if n == nil || n.rawString == nil || *n.rawString == "" {
+		return MapEmpty[any]()
+	}
 	var m map[string]any
 	_ = json.Unmarshal([]byte(*n.rawString), &m)
 	return m
@@ -108,6 +111,9 @@ func (n *JsonNode) ToMap() map[string]any {
 
 // ToSlice 转换为slice []map[string]any
 func (n *JsonNode) ToSlice() []map[string]any {
+	if n == nil || n.rawString == nil || *n.rawString == "" {
+		return SliceEmpty[map[string]any]()
+	}
 	var s []map[string]any
 	_ = json.Unmarshal([]byte(*n.rawString), &s)
 	return s
@@ -115,6 +121,9 @@ func (n *JsonNode) ToSlice() []map[string]any {
 
 // ToArray 转换为array []any
 func (n *JsonNode) ToArray() []any {
+	if n == nil || n.rawString == nil || *n.rawString == "" {
+		return ArrayEmpty[any]()
+	}
 	var a []any
 	_ = json.Unmarshal([]byte(*n.rawString), &a)
 	return a
@@ -122,21 +131,24 @@ func (n *JsonNode) ToArray() []any {
 
 // IsEmpty 是否空JSON
 func (n *JsonNode) IsEmpty() bool {
-	return n.Size() == 0
+	return n == nil || n.rawString == nil || *n.rawString == "" || n.Size() == 0
 }
 
 // IsArray 是否JSONArray类型
 func (n *JsonNode) IsArray() bool {
-	return n.object == nil && n.array != nil
+	return n != nil && n.rawString != nil && *n.rawString != "" && n.object == nil && n.array != nil
 }
 
 // IsObject 是否JSONObject 类型
 func (n *JsonNode) IsObject() bool {
-	return n.object != nil && n.array == nil
+	return n != nil && n.rawString != nil && *n.rawString != "" && n.object != nil && n.array == nil
 }
 
 // Size 长度，对象类型：字段个数，数组类型：数组长度
 func (n *JsonNode) Size() int {
+	if n == nil || n.rawString == nil || *n.rawString == "" {
+		return 0
+	}
 	if n.IsArray() {
 		return len(n.array)
 	} else if n.IsObject() {
@@ -159,6 +171,11 @@ func (n *JsonNode) Keys() []string {
 	return []string{}
 }
 
+// ContainsKey 是否包含指定Key
+func (n *JsonNode) ContainsKey(key string) bool {
+	return SliceContains[string](key, n.Keys())
+}
+
 // Name 获取JSON对象指定字段的值
 func (n *JsonNode) Name(key string) *JsonNode {
 	if n.IsObject() && !n.IsEmpty() {
@@ -177,16 +194,16 @@ func (n *JsonNode) Index(index int) *JsonNode {
 
 // String 获取JSON字段指定的值内容，string 类型
 func (n *JsonNode) String() string {
-	if n == nil && n.rawString == nil {
-		panic(errors.New("invalid string value"))
+	if n == nil || n.rawString == nil {
+		return ""
 	}
 	return *n.rawString
 }
 
 // Int64 获取JSON字段指定的值内容，int64类型
 func (n *JsonNode) Int64() int64 {
-	if n == nil && n.value == nil {
-		panic(errors.New("invalid number value"))
+	if n == nil || n.rawString == nil {
+		return 0
 	}
 	switch n.jType {
 	case jsonString:
@@ -209,8 +226,8 @@ func (n *JsonNode) Int64() int64 {
 
 // Float64 获取JSON字段指定的值内容，float64类型
 func (n *JsonNode) Float64() float64 {
-	if n == nil && n.value == nil {
-		panic(errors.New("invalid number value"))
+	if n == nil || n.rawString == nil {
+		return 0
 	}
 	switch n.jType {
 	case jsonString:
@@ -234,8 +251,8 @@ func (n *JsonNode) Float64() float64 {
 
 // Boolean 获取JSON字段指定的值内容，bool 类型
 func (n *JsonNode) Boolean() bool {
-	if n == nil && n.value == nil {
-		panic(errors.New("invalid boolean value"))
+	if n == nil || n.rawString == nil {
+		return false
 	}
 	switch n.jType {
 	case jsonString:

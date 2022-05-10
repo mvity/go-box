@@ -11,6 +11,18 @@ import (
 	"time"
 )
 
+// ParseDateTimeLayout 转换 为指定 格式时间字符串
+func ParseDateTimeLayout(value string, layout string) time.Time {
+	if strings.TrimSpace(value) == "" {
+		return time.Time{}
+	}
+	t, err := time.ParseInLocation(layout, strings.TrimSpace(value), time.Now().Location())
+	if err != nil {
+		panic(err)
+	}
+	return t
+}
+
 // ParseDateTime 转换 2006-01-02 15:04:05 格式时间字符串
 func ParseDateTime(value string) time.Time {
 	if strings.TrimSpace(value) == "" {

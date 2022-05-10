@@ -23,7 +23,7 @@ type Float64 struct {
 
 // NewFloat64 Generates a new object of type t.Float64 based on the specified value
 // Warning: When value is passed in as uint(X) and float(X), be aware of data overflow and loss of precision
-func NewFloat64(value interface{}) Float64 {
+func NewFloat64(value any) Float64 {
 	intv := Float64{}
 	if value == nil {
 		return intv
@@ -141,7 +141,7 @@ func (i *Float64) UnmarshalJSON(data []byte) error {
 		i.value = nil
 		return nil
 	}
-	var value interface{}
+	var value any
 	if err := json.Unmarshal([]byte(sval), &value); err != nil {
 		return err
 	}
@@ -158,7 +158,7 @@ func (i Float64) Value() (driver.Value, error) {
 }
 
 // Scan implements the driver Scanner interface.
-func (i *Float64) Scan(value interface{}) error {
+func (i *Float64) Scan(value any) error {
 	i.value = NewFloat64(value).value
 	return nil
 }

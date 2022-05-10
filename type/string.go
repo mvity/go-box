@@ -19,7 +19,7 @@ type String struct {
 
 // NewString Generates a new object of type t.String based on the specified value
 // Warning: When value is passed in as uint(X) and float(X), be aware of data overflow and loss of precision
-func NewString(value interface{}) String {
+func NewString(value any) String {
 	strv := String{}
 	if value == nil {
 		return strv
@@ -99,7 +99,7 @@ func (s String) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements the encoding json interface.
 func (s *String) UnmarshalJSON(data []byte) error {
-	var value interface{}
+	var value any
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
@@ -116,7 +116,7 @@ func (s String) Value() (driver.Value, error) {
 }
 
 // Scan implements the driver Scanner interface.
-func (s *String) Scan(value interface{}) error {
+func (s *String) Scan(value any) error {
 	s.value = NewString(value).value
 	return nil
 }

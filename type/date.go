@@ -26,7 +26,7 @@ const dayms = 24 * 60 * 60 * 1000
 
 // NewDate Generates a new object of type t.Date based on the specified value
 // Warning: When value is passed in as uint(X) and float(X), be aware of data overflow and loss of precision
-func NewDate(value interface{}) Date {
+func NewDate(value any) Date {
 	intv := Date{}
 	if value == nil {
 		return intv
@@ -118,7 +118,7 @@ func (i *Date) UnmarshalJSON(data []byte) error {
 		i.value = nil
 		return nil
 	}
-	var value interface{}
+	var value any
 	if err := json.Unmarshal([]byte(sval), &value); err != nil {
 		return err
 	}
@@ -140,7 +140,7 @@ func (i Date) Value() (driver.Value, error) {
 }
 
 // Scan implements the driver Scanner interface.
-func (i *Date) Scan(value interface{}) error {
+func (i *Date) Scan(value any) error {
 	if value == nil {
 		i.value = nil
 		return nil

@@ -5,10 +5,27 @@
 
 package main
 
-import k "github.com/mvity/go-box/kit"
+import (
+	"fmt"
+	k "github.com/mvity/go-box/kit"
+)
 
 func main() {
 
-	idw := k.SnowfIDWorker(1, 1650032075572)
-	println(idw.SnowfID())
+	jsonA := `{
+    "default": true,
+    "year": "2020",
+    "color": null,
+    "door": "4",
+    "type": "三厢",
+    "pic": "https://xxxx.com/xxx.webp"
+  }`
+	node := k.ParseJSONStringForce(jsonA, false)
+
+	fmt.Println(node.Name("color").IsEmpty())
+	fmt.Println(node.Name("color").Size())
+	fmt.Println(node.Name("color").Int64())
+	fmt.Println(node.Name("color").String())
+	fmt.Println(node.Name("color").Boolean())
+	fmt.Println(node.Name("color").Name("0"))
 }

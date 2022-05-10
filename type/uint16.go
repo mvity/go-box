@@ -23,7 +23,7 @@ type UInt16 struct {
 
 // NewUInt16 Generates a new object of type t.UInt16 based on the specified value
 // Warning: When value is passed in as uint(X) and float(X), be aware of data overflow and loss of precision
-func NewUInt16(value interface{}) UInt16 {
+func NewUInt16(value any) UInt16 {
 	uintv := UInt16{}
 	if value == nil {
 		return uintv
@@ -173,7 +173,7 @@ func (u *UInt16) UnmarshalJSON(data []byte) error {
 		u.value = nil
 		return nil
 	}
-	var value interface{}
+	var value any
 	if err := json.Unmarshal([]byte(sval), &value); err != nil {
 		return err
 	}
@@ -190,7 +190,7 @@ func (u UInt16) Value() (driver.Value, error) {
 }
 
 // Scan implements the driver Scanner interface.
-func (u *UInt16) Scan(value interface{}) error {
+func (u *UInt16) Scan(value any) error {
 	u.value = NewUInt16(value).value
 	return nil
 }

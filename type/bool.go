@@ -23,7 +23,7 @@ var falseStrs = []string{"false", "0", "no"}
 
 // NewBool Generates a new object of type t.Bool based on the specified value
 // Warning: When value is passed in as uint(X) and float(X), be aware of data overflow and loss of precision
-func NewBool(value interface{}) Bool {
+func NewBool(value any) Bool {
 	boolv := Bool{}
 	if value == nil {
 		return boolv
@@ -36,9 +36,9 @@ func NewBool(value interface{}) Bool {
 		sval := strings.ToLower(strings.TrimSpace(value.(string)))
 		if sval != "" {
 			var val bool
-			if k.InStringSlice(sval, trueStrs) {
+			if k.SliceContains(sval, trueStrs) {
 				val = true
-			} else if k.InStringSlice(sval, falseStrs) {
+			} else if k.SliceContains(sval, falseStrs) {
 				val = false
 			} else {
 				break
@@ -126,7 +126,7 @@ func (b Bool) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements the encoding json interface.
 func (b *Bool) UnmarshalJSON(data []byte) error {
-	var value interface{}
+	var value any
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
@@ -143,7 +143,7 @@ func (b Bool) Value() (driver.Value, error) {
 }
 
 // Scan implements the driver Scanner interface.
-func (b *Bool) Scan(value interface{}) error {
+func (b *Bool) Scan(value any) error {
 	b.value = NewBool(value).value
 	return nil
 }

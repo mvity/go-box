@@ -18,7 +18,6 @@ var falseStrs = []string{"false", "0", "no"}
 
 // CastToBool 转换为 bool 类型
 func CastToBool(value any) bool {
-
 	if value == nil {
 		return false
 	}
@@ -34,58 +33,34 @@ func CastToBool(value any) bool {
 			} else if SliceContains(sval, falseStrs) {
 				val = false
 			} else {
-				break
+				val = false
 			}
 			return val
 		}
 	case int:
-		ival := value.(int)
-		val := ival > 0
-		return val
+		return value.(int) > 0
 	case int8:
-		ival := value.(int8)
-		val := ival > 0
-		return val
+		return value.(int8) > 0
 	case int16:
-		ival := value.(int16)
-		val := ival > 0
-		return val
+		return value.(int16) > 0
 	case int32:
-		ival := value.(int32)
-		val := ival > 0
-		return val
+		return value.(int32) > 0
 	case int64:
-		ival := value.(int64)
-		val := ival > 0
-		return val
+		return value.(int64) > 0
 	case uint:
-		uval := value.(uint)
-		val := uval > 0
-		return val
+		return value.(uint) > 0
 	case uint8:
-		uval := value.(uint8)
-		val := uval > 0
-		return val
+		return value.(uint8) > 0
 	case uint16:
-		uval := value.(uint16)
-		val := uval > 0
-		return val
+		return value.(uint16) > 0
 	case uint32:
-		uval := value.(uint32)
-		val := uval > 0
-		return val
+		return value.(uint32) > 0
 	case uint64:
-		uval := value.(uint64)
-		val := uval > 0
-		return val
+		return value.(uint64) > 0
 	case float32:
-		fval := value.(float32)
-		val := fval > 0
-		return val
+		return value.(float32) > 0
 	case float64:
-		fval := value.(float64)
-		val := fval > 0
-		return val
+		return value.(float64) > 0
 	}
 	return false
 }
@@ -144,83 +119,63 @@ func CastToInt(value any) int {
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
-				fval, _ := strconv.ParseFloat(value.(string), 64)
-				if fval > math.MaxInt {
-					gbox.WARN("Data overflow during type conversion. value: %v", fval)
+				val, _ := strconv.ParseFloat(value.(string), 64)
+				if val > math.MaxInt {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := int(fval)
-				return val
+				return int(val)
 			} else {
-				ival, _ := strconv.ParseInt(value.(string), 10, 64)
-				if ival > math.MaxInt {
-					gbox.WARN("Data overflow during type conversion. value: %v", ival)
+				val, _ := strconv.ParseInt(value.(string), 10, 64)
+				if val > math.MaxInt {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := int(ival)
-				return val
+				return int(val)
 			}
 		}
 	case int:
-		val := value.(int)
-		return val
+		return value.(int)
 	case int8:
-		ival := value.(int8)
-		val := int(ival)
-		return val
+		return int(value.(int8))
 	case int16:
-		ival := value.(int16)
-		val := int(ival)
-		return val
+		return int(value.(int16))
 	case int32:
-		ival := value.(int32)
-		val := int(ival)
-		return val
+		return int(value.(int32))
 	case int64:
-		ival := value.(int64)
-		if ival > math.MaxInt {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int64)
+		if val > math.MaxInt {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int(ival)
-		return val
+		return int(val)
 	case uint:
-		uval := value.(uint)
-		if uval > math.MaxInt {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint)
+		if val > math.MaxInt {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int(uval)
-		return val
+		return int(val)
 	case uint8:
-		uval := value.(uint8)
-		val := int(uval)
-		return val
+		return int(value.(uint8))
 	case uint16:
-		uval := value.(uint16)
-		val := int(uval)
-		return val
+		return int(value.(uint16))
 	case uint32:
-		uval := value.(uint32)
-		val := int(uval)
-		return val
+		return int(value.(uint32))
 	case uint64:
-		uval := value.(uint64)
-		if uval > math.MaxInt {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint64)
+		if val > math.MaxInt {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int(uval)
-		return val
+		return int(val)
 	case float32:
-		fval := value.(float32)
-		if fval > math.MaxInt {
-			gbox.WARN("Data overflow during type conversion. value: %v", fval)
+		val := value.(float32)
+		if val > math.MaxInt {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int(fval)
-		return val
+		return int(val)
 	case float64:
-		fval := value.(float64)
-		if fval > math.MaxInt {
-			gbox.WARN("Data overflow during type conversion. value: %v", fval)
+		val := value.(float64)
+		if val > math.MaxInt {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int(fval)
-		return val
+		return int(val)
 	}
 	return 0
 }
@@ -241,103 +196,88 @@ func CastToInt8(value any) int8 {
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
-				fval, _ := strconv.ParseFloat(value.(string), 64)
-				if fval > math.MaxInt8 {
-					gbox.WARN("Data overflow during type conversion. value: %v", fval)
+				val, _ := strconv.ParseFloat(value.(string), 64)
+				if val > math.MaxInt8 {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := int8(fval)
-				return val
+				return int8(val)
 			} else {
-				ival, _ := strconv.ParseInt(value.(string), 10, 64)
-				if ival > math.MaxInt8 {
-					gbox.WARN("Data overflow during type conversion. value: %v", ival)
+				val, _ := strconv.ParseInt(value.(string), 10, 64)
+				if val > math.MaxInt8 {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := int8(ival)
-				return val
+				return int8(val)
 			}
 		}
 	case int:
-		ival := value.(int)
-		if ival > math.MaxInt8 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int)
+		if val > math.MaxInt8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int8(ival)
-		return val
+		return int8(val)
 	case int8:
-		val := value.(int8)
-		return val
+		return value.(int8)
 	case int16:
-		ival := value.(int16)
-		if ival > math.MaxInt8 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int16)
+		if val > math.MaxInt8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int8(ival)
-		return val
+		return int8(val)
 	case int32:
-		ival := value.(int32)
-		if ival > math.MaxInt8 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int32)
+		if val > math.MaxInt8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int8(ival)
-		return val
+		return int8(val)
 	case int64:
-		ival := value.(int64)
-		if ival > math.MaxInt8 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int64)
+		if val > math.MaxInt8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int8(ival)
-		return val
+		return int8(val)
 	case uint:
-		uval := value.(uint)
-		if uval > math.MaxInt8 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint)
+		if val > math.MaxInt8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int8(uval)
-		return val
+		return int8(val)
 	case uint8:
-		uval := value.(uint8)
-		if uval > math.MaxInt8 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint8)
+		if val > math.MaxInt8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int8(uval)
-		return val
+		return int8(val)
 	case uint16:
-		uval := value.(uint16)
-		if uval > math.MaxInt8 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint16)
+		if val > math.MaxInt8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int8(uval)
-		return val
+		return int8(val)
 	case uint32:
-		uval := value.(uint32)
-		if uval > math.MaxInt8 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint32)
+		if val > math.MaxInt8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int8(uval)
-		return val
+		return int8(val)
 	case uint64:
-		uval := value.(uint64)
-		if uval > math.MaxInt8 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint64)
+		if val > math.MaxInt8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int8(uval)
-		return val
+		return int8(val)
 	case float32:
-		fval := value.(float32)
-		if fval > math.MaxInt8 {
-			gbox.WARN("Data overflow during type conversion. value: %v", fval)
+		val := value.(float32)
+		if val > math.MaxInt8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int8(fval)
-		return val
+		return int8(val)
 	case float64:
-		fval := value.(float64)
-		if fval > math.MaxInt8 {
-			gbox.WARN("Data overflow during type conversion. value: %v", fval)
+		val := value.(float64)
+		if val > math.MaxInt8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int8(fval)
-		return val
+		return int8(val)
 	}
-
 	return 0
 }
 
@@ -357,97 +297,80 @@ func CastToInt16(value any) int16 {
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
-				fval, _ := strconv.ParseFloat(value.(string), 64)
-				if fval > math.MaxInt16 {
-					gbox.WARN("Data overflow during type conversion. value: %v", fval)
+				val, _ := strconv.ParseFloat(value.(string), 64)
+				if val > math.MaxInt16 {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := int16(fval)
-				return val
+				return int16(val)
 			} else {
-				ival, _ := strconv.ParseInt(value.(string), 10, 64)
-				if ival > math.MaxInt16 {
-					gbox.WARN("Data overflow during type conversion. value: %v", ival)
+				val, _ := strconv.ParseInt(value.(string), 10, 64)
+				if val > math.MaxInt16 {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := int16(ival)
-				return val
+				return int16(val)
 			}
 		}
 	case int:
-		ival := value.(int)
-		if ival > math.MaxInt16 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int)
+		if val > math.MaxInt16 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int16(ival)
-		return val
+		return int16(val)
 	case int8:
-		ival := value.(int8)
-		val := int16(ival)
-		return val
+		return int16(value.(int8))
 	case int16:
-		val := value.(int16)
-		return val
+		return value.(int16)
 	case int32:
-		ival := value.(int32)
-		if ival > math.MaxInt16 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int32)
+		if val > math.MaxInt16 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int16(ival)
-		return val
+		return int16(val)
 	case int64:
-		ival := value.(int64)
-		if ival > math.MaxInt16 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int64)
+		if val > math.MaxInt16 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int16(ival)
-		return val
+		return int16(val)
 	case uint:
-		uval := value.(uint)
-		if uval > math.MaxInt16 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint)
+		if val > math.MaxInt16 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int16(uval)
-		return val
+		return int16(val)
 	case uint8:
-		uval := value.(uint8)
-		val := int16(uval)
-		return val
+		return int16(value.(uint8))
 	case uint16:
-		uval := value.(uint16)
-		if uval > math.MaxInt16 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint16)
+		if val > math.MaxInt16 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int16(uval)
-		return val
+		return int16(val)
 	case uint32:
-		uval := value.(uint32)
-		if uval > math.MaxInt16 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint32)
+		if val > math.MaxInt16 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int16(uval)
-		return val
+		return int16(val)
 	case uint64:
-		uval := value.(uint64)
-		if uval > math.MaxInt16 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint64)
+		if val > math.MaxInt16 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int16(uval)
-		return val
+		return int16(val)
 	case float32:
-		fval := value.(float32)
-		if fval > math.MaxInt16 {
-			gbox.WARN("Data overflow during type conversion. value: %v", fval)
+		val := value.(float32)
+		if val > math.MaxInt16 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int16(fval)
-		return val
+		return int16(val)
 	case float64:
-		fval := value.(float64)
-		if fval > math.MaxInt16 {
-			gbox.WARN("Data overflow during type conversion. value: %v", fval)
+		val := value.(float64)
+		if val > math.MaxInt16 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int16(fval)
-		return val
+		return int16(val)
 	}
-
 	return 0
 }
 
@@ -467,91 +390,72 @@ func CastToInt32(value any) int32 {
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
-				fval, _ := strconv.ParseFloat(value.(string), 64)
-				if fval > math.MaxInt32 {
-					gbox.WARN("Data overflow during type conversion. value: %v", fval)
+				val, _ := strconv.ParseFloat(value.(string), 64)
+				if val > math.MaxInt32 {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := int32(fval)
-				return val
+				return int32(val)
 			} else {
-				ival, _ := strconv.ParseInt(value.(string), 10, 64)
-				if ival > math.MaxInt32 {
-					gbox.WARN("Data overflow during type conversion. value: %v", ival)
+				val, _ := strconv.ParseInt(value.(string), 10, 64)
+				if val > math.MaxInt32 {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := int32(ival)
-				return val
+				return int32(val)
 			}
 		}
 	case int:
-		ival := value.(int)
-		if ival > math.MaxInt32 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int)
+		if val > math.MaxInt32 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int32(ival)
-		return val
+		return int32(val)
 	case int8:
-		ival := value.(int8)
-		val := int32(ival)
-		return val
+		return int32(value.(int8))
 	case int16:
-		ival := value.(int16)
-		val := int32(ival)
-		return val
+		return int32(value.(int16))
 	case int32:
-		val := value.(int32)
-		return val
+		return value.(int32)
 	case int64:
-		ival := value.(int64)
-		if ival > math.MaxInt32 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int64)
+		if val > math.MaxInt32 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int32(ival)
-		return val
+		return int32(val)
 	case uint:
-		uval := value.(uint)
-		if uval > math.MaxInt32 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint)
+		if val > math.MaxInt32 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int32(uval)
-		return val
+		return int32(val)
 	case uint8:
-		uval := value.(uint8)
-		val := int32(uval)
-		return val
+		return int32(value.(uint8))
 	case uint16:
-		uval := value.(uint16)
-		val := int32(uval)
-		return val
+		return int32(value.(uint16))
 	case uint32:
-		uval := value.(uint32)
-		if uval > math.MaxInt32 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint32)
+		if val > math.MaxInt32 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int32(uval)
-		return val
+		return int32(val)
 	case uint64:
-		uval := value.(uint64)
-		if uval > math.MaxInt32 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint64)
+		if val > math.MaxInt32 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int32(uval)
-		return val
+		return int32(val)
 	case float32:
-		fval := value.(float32)
-		if fval > math.MaxInt32 {
-			gbox.WARN("Data overflow during type conversion. value: %v", fval)
+		val := value.(float32)
+		if val > math.MaxInt32 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int32(fval)
-		return val
+		return int32(val)
 	case float64:
-		fval := value.(float64)
-		if fval > math.MaxInt32 {
-			gbox.WARN("Data overflow during type conversion. value: %v", fval)
+		val := value.(float64)
+		if val > math.MaxInt32 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int32(fval)
-		return val
+		return int32(val)
 	}
-
 	return 0
 }
 
@@ -571,80 +475,58 @@ func CastToInt64(value any) int64 {
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
-				fval, _ := strconv.ParseFloat(value.(string), 64)
-				if fval > math.MaxInt64 {
-					gbox.WARN("Data overflow during type conversion. value: %v", fval)
+				val, _ := strconv.ParseFloat(value.(string), 64)
+				if val > math.MaxInt64 {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := int64(fval)
-				return val
+				return int64(val)
 			} else {
-				ival, _ := strconv.ParseInt(value.(string), 10, 64)
-				if ival > math.MaxInt64 {
-					gbox.WARN("Data overflow during type conversion. value: %v", ival)
-				}
-				val := ival
+				val, _ := strconv.ParseInt(value.(string), 10, 64)
 				return val
 			}
+		} else {
+			value = 0
 		}
 	case int:
-		ival := value.(int)
-		val := int64(ival)
-		return val
+		return int64(value.(int))
 	case int8:
-		ival := value.(int8)
-		val := int64(ival)
-		return val
+		return int64(value.(int8))
 	case int16:
-		ival := value.(int16)
-		val := int64(ival)
-		return val
+		return int64(value.(int16))
 	case int32:
-		ival := value.(int32)
-		val := int64(ival)
-		return val
+		return int64(value.(int32))
 	case int64:
-		val := value.(int64)
-		return val
+		return value.(int64)
 	case uint:
-		uval := value.(uint)
-		if uval > math.MaxInt64 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint)
+		if val > math.MaxInt64 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int64(uval)
-		return val
+		return int64(val)
 	case uint8:
-		uval := value.(uint8)
-		val := int64(uval)
-		return val
+		return int64(value.(uint8))
 	case uint16:
-		uval := value.(uint16)
-		val := int64(uval)
-		return val
+		return int64(value.(uint16))
 	case uint32:
-		uval := value.(uint32)
-		val := int64(uval)
-		return val
+		return int64(value.(uint32))
 	case uint64:
-		uval := value.(uint64)
-		if uval > math.MaxInt64 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint64)
+		if val > math.MaxInt64 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int64(uval)
-		return val
+		return int64(val)
 	case float32:
-		fval := value.(float32)
-		if fval > math.MaxInt64 {
-			gbox.WARN("Data overflow during type conversion. value: %v", fval)
+		val := value.(float32)
+		if val > math.MaxInt64 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int64(fval)
-		return val
+		return int64(val)
 	case float64:
-		fval := value.(float64)
-		if fval > math.MaxInt64 {
-			gbox.WARN("Data overflow during type conversion. value: %v", fval)
+		val := value.(float64)
+		if val > math.MaxInt64 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := int64(fval)
-		return val
+		return int64(val)
 	}
 
 	return 0
@@ -666,99 +548,81 @@ func CastToUInt(value any) uint {
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
-				fval, _ := strconv.ParseFloat(value.(string), 64)
-				if fval < 0 || fval > math.MaxUint {
-					gbox.WARN("Data overflow during type conversion. value: %v", fval)
+				val, _ := strconv.ParseFloat(value.(string), 64)
+				if val < 0 || val > math.MaxUint {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := uint(fval)
-				return val
+				return uint(val)
 			} else if strings.Contains(sval, "-") {
-				ival, _ := strconv.ParseInt(value.(string), 10, 64)
-				if ival < 0 {
-					gbox.WARN("Data overflow during type conversion. value: %v", ival)
+				val, _ := strconv.ParseInt(value.(string), 10, 64)
+				if val < 0 {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := uint(ival)
-				return val
+				return uint(val)
 			} else {
-				ival, _ := strconv.ParseUint(value.(string), 10, 64)
-				if ival < 0 || ival > math.MaxUint {
-					gbox.WARN("Data overflow during type conversion. value: %v", ival)
+				val, _ := strconv.ParseUint(value.(string), 10, 64)
+				if val < 0 || val > math.MaxUint {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := uint(ival)
-				return val
+				return uint(val)
 			}
 		}
 	case int:
-		ival := value.(int)
-		if ival < 0 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int)
+		if val < 0 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint(ival)
-		return val
+		return uint(val)
 	case int8:
-		ival := value.(int8)
-		if ival < 0 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int8)
+		if val < 0 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint(ival)
-		return val
+		return uint(val)
 	case int16:
-		ival := value.(int16)
-		if ival < 0 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int16)
+		if val < 0 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint(ival)
-		return val
+		return uint(val)
 	case int32:
-		ival := value.(int32)
-		if ival < 0 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int32)
+		if val < 0 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint(ival)
-		return val
+		return uint(val)
 	case int64:
-		ival := value.(int64)
-		if ival < 0 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int64)
+		if val < 0 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint(ival)
-		return val
+		return uint(val)
 	case uint:
-		val := value.(uint)
-		return val
+		return value.(uint)
 	case uint8:
-		uval := value.(uint8)
-		val := uint(uval)
-		return val
+		return uint(value.(uint8))
 	case uint16:
-		uval := value.(uint16)
-		val := uint(uval)
-		return val
+		return uint(value.(uint16))
 	case uint32:
-		uval := value.(uint32)
-		val := uint(uval)
-		return val
+		return uint(value.(uint32))
 	case uint64:
-		uval := value.(uint64)
-		if uval > math.MaxUint {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint64)
+		if val > math.MaxUint {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint(uval)
-		return val
+		return uint(val)
 	case float32:
-		fval := value.(float32)
-		if fval < 0 || fval > math.MaxUint {
-			gbox.WARN("Data overflow during type conversion. value: %v", fval)
+		val := value.(float32)
+		if val < 0 || val > math.MaxUint {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint(fval)
-		return val
+		return uint(val)
 	case float64:
-		fval := value.(float64)
-		if fval < 0 || fval > math.MaxUint {
-			gbox.WARN("Data overflow during type conversion. value: %v", fval)
+		val := value.(float64)
+		if val < 0 || val > math.MaxUint {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint(fval)
-		return val
+		return uint(val)
 	}
 
 	return 0
@@ -780,110 +644,94 @@ func CastToUInt8(value any) uint8 {
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
-				fval, _ := strconv.ParseFloat(value.(string), 64)
-				if fval < 0 || fval > math.MaxUint8 {
-					gbox.WARN("Data overflow during type conversion. value: %v", fval)
+				val, _ := strconv.ParseFloat(value.(string), 64)
+				if val < 0 || val > math.MaxUint8 {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := uint8(fval)
-				return val
+				return uint8(val)
 			} else if strings.Contains(sval, "-") {
-				ival, _ := strconv.ParseInt(value.(string), 10, 64)
-				if ival < 0 || ival > math.MaxUint8 {
-					gbox.WARN("Data overflow during type conversion. value: %v", ival)
+				val, _ := strconv.ParseInt(value.(string), 10, 64)
+				if val < 0 || val > math.MaxUint8 {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := uint8(ival)
-				return val
+				return uint8(val)
 			} else {
-				ival, _ := strconv.ParseUint(value.(string), 10, 64)
-				if ival < 0 || ival > math.MaxUint8 {
-					gbox.WARN("Data overflow during type conversion. value: %v", ival)
+				val, _ := strconv.ParseUint(value.(string), 10, 64)
+				if val < 0 || val > math.MaxUint8 {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := uint8(ival)
-				return val
+				return uint8(val)
 			}
 		}
 	case int:
-		ival := value.(int)
-		if ival < 0 || ival > math.MaxUint8 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int)
+		if val < 0 || val > math.MaxUint8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint8(ival)
-		return val
+		return uint8(val)
 	case int8:
-		ival := value.(int8)
-		if ival < 0 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int8)
+		if val < 0 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint8(ival)
-		return val
+		return uint8(val)
 	case int16:
-		ival := value.(int16)
-		if ival < 0 || ival > math.MaxUint8 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int16)
+		if val < 0 || val > math.MaxUint8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint8(ival)
-		return val
+		return uint8(val)
 	case int32:
-		ival := value.(int32)
-		if ival < 0 || ival > math.MaxUint8 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int32)
+		if val < 0 || val > math.MaxUint8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint8(ival)
-		return val
+		return uint8(val)
 	case int64:
-		ival := value.(int64)
-		if ival < 0 || ival > math.MaxUint8 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int64)
+		if val < 0 || val > math.MaxUint8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint8(ival)
-		return val
+		return uint8(val)
 	case uint:
-		uval := value.(uint)
-		if uval > math.MaxUint8 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint)
+		if val > math.MaxUint8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint8(uval)
-		return val
+		return uint8(val)
 	case uint8:
-		val := value.(uint8)
-		return val
+		return value.(uint8)
 	case uint16:
-		uval := value.(uint16)
-		if uval > math.MaxUint8 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint16)
+		if val > math.MaxUint8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint8(uval)
-		return val
+		return uint8(val)
 	case uint32:
-		uval := value.(uint32)
-		if uval > math.MaxUint8 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint32)
+		if val > math.MaxUint8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint8(uval)
-		return val
+		return uint8(val)
 	case uint64:
-		uval := value.(uint64)
-		if uval > math.MaxUint8 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint64)
+		if val > math.MaxUint8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint8(uval)
-		return val
+		return uint8(val)
 	case float32:
-		fval := value.(float32)
-		if fval < 0 || fval > math.MaxUint8 {
-			gbox.WARN("Data overflow during type conversion. value: %v", fval)
+		val := value.(float32)
+		if val < 0 || val > math.MaxUint8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint8(fval)
-		return val
+		return uint8(val)
 	case float64:
-		fval := value.(float64)
-		if fval < 0 || fval > math.MaxUint8 {
-			gbox.WARN("Data overflow during type conversion. value: %v", fval)
+		val := value.(float64)
+		if val < 0 || val > math.MaxUint8 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint8(fval)
-		return val
+		return uint8(val)
 	}
-
 	return 0
 }
 
@@ -903,102 +751,89 @@ func CastToUInt16(value any) uint16 {
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
-				fval, _ := strconv.ParseFloat(value.(string), 64)
-				if fval < 0 || fval > math.MaxUint16 {
-					gbox.WARN("Data overflow during type conversion. value: %v", fval)
+				val, _ := strconv.ParseFloat(value.(string), 64)
+				if val < 0 || val > math.MaxUint16 {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := uint16(fval)
-				return val
+				return uint16(val)
 			} else if strings.Contains(sval, "-") {
-				ival, _ := strconv.ParseInt(value.(string), 10, 64)
-				if ival < 0 || ival > math.MaxUint16 {
-					gbox.WARN("Data overflow during type conversion. value: %v", ival)
+				val, _ := strconv.ParseInt(value.(string), 10, 64)
+				if val < 0 || val > math.MaxUint16 {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := uint16(ival)
-				return val
+				return uint16(val)
 			} else {
-				ival, _ := strconv.ParseUint(value.(string), 10, 64)
-				if ival < 0 || ival > math.MaxUint16 {
-					gbox.WARN("Data overflow during type conversion. value: %v", ival)
+				val, _ := strconv.ParseUint(value.(string), 10, 64)
+				if val < 0 || val > math.MaxUint16 {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := uint16(ival)
-				return val
+				return uint16(val)
 			}
 		}
 	case int:
-		ival := value.(int)
-		if ival < 0 || ival > math.MaxUint16 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int)
+		if val < 0 || val > math.MaxUint16 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint16(ival)
-		return val
+		return uint16(val)
 	case int8:
-		ival := value.(int8)
-		if ival < 0 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int8)
+		if val < 0 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint16(ival)
-		return val
+		return uint16(val)
 	case int16:
-		ival := value.(int16)
-		val := uint16(ival)
-		return val
+		val := value.(int16)
+		if val < 0 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
+		}
+		return uint16(val)
 	case int32:
-		ival := value.(int32)
-		if ival < 0 || ival > math.MaxUint16 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int32)
+		if val < 0 || val > math.MaxUint16 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint16(ival)
-		return val
+		return uint16(val)
 	case int64:
-		ival := value.(int64)
-		if ival < 0 || ival > math.MaxUint16 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int64)
+		if val < 0 || val > math.MaxUint16 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint16(ival)
-		return val
+		return uint16(val)
 	case uint:
-		uval := value.(uint)
-		if uval > math.MaxUint16 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint)
+		if val > math.MaxUint16 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint16(uval)
-		return val
+		return uint16(val)
 	case uint8:
-		uval := value.(uint8)
-		val := uint16(uval)
-		return val
+		return uint16(value.(uint8))
 	case uint16:
-		val := value.(uint16)
-		return val
+		return value.(uint16)
 	case uint32:
-		uval := value.(uint32)
-		if uval > math.MaxUint16 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint32)
+		if val > math.MaxUint16 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint16(uval)
-		return val
+		return uint16(val)
 	case uint64:
-		uval := value.(uint64)
-		if uval > math.MaxUint16 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint64)
+		if val > math.MaxUint16 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint16(uval)
-		return val
+		return uint16(val)
 	case float32:
-		fval := value.(float32)
-		if fval < 0 || fval > math.MaxUint16 {
-			gbox.WARN("Data overflow during type conversion. value: %v", fval)
+		val := value.(float32)
+		if val < 0 || val > math.MaxUint16 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint16(fval)
-		return val
+		return uint16(val)
 	case float64:
-		fval := value.(float64)
-		if fval < 0 || fval > math.MaxUint16 {
-			gbox.WARN("Data overflow during type conversion. value: %v", fval)
+		val := value.(float64)
+		if val < 0 || val > math.MaxUint16 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint16(fval)
-		return val
+		return uint16(val)
 	}
 
 	return 0
@@ -1020,98 +855,87 @@ func CastToUInt32(value any) uint32 {
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
-				fval, _ := strconv.ParseFloat(value.(string), 64)
-				if fval < 0 || fval > math.MaxUint32 {
-					gbox.WARN("Data overflow during type conversion. value: %v", fval)
+				val, _ := strconv.ParseFloat(value.(string), 64)
+				if val < 0 || val > math.MaxUint32 {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := uint32(fval)
-				return val
+				return uint32(val)
 			} else if strings.Contains(sval, "-") {
-				ival, _ := strconv.ParseInt(value.(string), 10, 64)
-				if ival < 0 || ival > math.MaxUint32 {
-					gbox.WARN("Data overflow during type conversion. value: %v", ival)
+				val, _ := strconv.ParseInt(value.(string), 10, 64)
+				if val < 0 || val > math.MaxUint32 {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := uint32(ival)
-				return val
+				return uint32(val)
 			} else {
-				ival, _ := strconv.ParseUint(value.(string), 10, 64)
-				if ival < 0 || ival > math.MaxUint32 {
-					gbox.WARN("Data overflow during type conversion. value: %v", ival)
+				val, _ := strconv.ParseUint(value.(string), 10, 64)
+				if val < 0 || val > math.MaxUint32 {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := uint32(ival)
-				return val
+				return uint32(val)
 			}
 		}
 	case int:
-		ival := value.(int)
-		if ival < 0 || ival > math.MaxUint32 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int)
+		if val < 0 || val > math.MaxUint32 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint32(ival)
-		return val
+		return uint32(val)
 	case int8:
-		ival := value.(int8)
-		if ival < 0 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int8)
+		if val < 0 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint32(ival)
-		return val
+		return uint32(val)
 	case int16:
-		ival := value.(int16)
-		val := uint32(ival)
-		return val
+		val := value.(int16)
+		if val < 0 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
+		}
+		return uint32(val)
 	case int32:
-		ival := value.(int32)
-		val := uint32(ival)
-		return val
-	case int64:
-		ival := value.(int64)
-		if ival < 0 || ival > math.MaxUint32 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int32)
+		if val < 0 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint32(ival)
-		return val
-	case uint:
-		uval := value.(uint)
-		if uval > math.MaxUint32 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
-		}
-		val := uint32(uval)
-		return val
-	case uint8:
-		uval := value.(uint8)
-		val := uint32(uval)
-		return val
-	case uint16:
-		uval := value.(uint16)
-		val := uint32(uval)
-		return val
-	case uint32:
-		val := value.(uint32)
-		return val
-	case uint64:
-		uval := value.(uint64)
-		if uval > math.MaxUint32 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
-		}
-		val := uint32(uval)
-		return val
-	case float32:
-		fval := value.(float32)
-		if fval < 0 || fval > math.MaxUint32 {
-			gbox.WARN("Data overflow during type conversion. value: %v", fval)
-		}
-		val := uint32(fval)
-		return val
-	case float64:
-		fval := value.(float64)
-		if fval < 0 || fval > math.MaxUint32 {
-			gbox.WARN("Data overflow during type conversion. value: %v", fval)
-		}
-		val := uint32(fval)
-		return val
-	}
+		return uint32(val)
 
+	case int64:
+		val := value.(int64)
+		if val < 0 || val > math.MaxUint32 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
+		}
+		return uint32(val)
+	case uint:
+		val := value.(uint)
+		if val > math.MaxUint32 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
+		}
+		return uint32(val)
+	case uint8:
+		return uint32(value.(uint8))
+	case uint16:
+		return uint32(value.(uint16))
+	case uint32:
+		return value.(uint32)
+	case uint64:
+		val := value.(uint64)
+		if val > math.MaxUint32 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
+		}
+		return uint32(val)
+	case float32:
+		val := value.(float32)
+		if val < 0 || val > math.MaxUint32 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
+		}
+		return uint32(val)
+	case float64:
+		val := value.(float64)
+		if val < 0 || val > math.MaxUint32 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
+		}
+		return uint32(val)
+	}
 	return 0
 }
 
@@ -1131,98 +955,78 @@ func CastToUInt64(value any) uint64 {
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
-				fval, _ := strconv.ParseFloat(value.(string), 64)
-				if fval < 0 || fval > math.MaxUint64 {
-					gbox.WARN("Data overflow during type conversion. value: %v", fval)
+				val, _ := strconv.ParseFloat(value.(string), 64)
+				if val < 0 || val > math.MaxUint64 {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := uint64(fval)
-				return val
+				return uint64(val)
 			} else if strings.Contains(sval, "-") {
-				ival, _ := strconv.ParseInt(value.(string), 10, 64)
-				if ival < 0 {
-					gbox.WARN("Data overflow during type conversion. value: %v", ival)
+				val, _ := strconv.ParseInt(value.(string), 10, 64)
+				if val < 0 {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := uint64(ival)
-				return val
+				return uint64(val)
 			} else {
-				ival, _ := strconv.ParseUint(value.(string), 10, 64)
-				if ival < 0 || ival > math.MaxUint64 {
-					gbox.WARN("Data overflow during type conversion. value: %v", ival)
+				val, _ := strconv.ParseUint(value.(string), 10, 64)
+				if val < 0 || val > math.MaxUint64 {
+					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
-				val := uint64(ival)
 				return val
 			}
 		}
 	case int:
-		ival := value.(int)
-		if ival < 0 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int)
+		if val < 0 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint64(ival)
-		return val
+		return uint64(val)
 	case int8:
-		ival := value.(int8)
-		if ival < 0 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int8)
+		if val < 0 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint64(ival)
-		return val
+		return uint64(val)
 	case int16:
-		ival := value.(int16)
-		if ival < 0 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int16)
+		if val < 0 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint64(ival)
-		return val
+		return uint64(val)
 	case int32:
-		ival := value.(int32)
-		if ival < 0 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int32)
+		if val < 0 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint64(ival)
-		return val
+		return uint64(val)
 	case int64:
-		ival := value.(int64)
-		if ival < 0 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int64)
+		if val < 0 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint64(ival)
-		return val
+		return uint64(val)
 	case uint:
-		uval := value.(uint)
-		val := uint64(uval)
-		return val
+		return uint64(value.(uint))
 	case uint8:
-		uval := value.(uint8)
-		val := uint64(uval)
-		return val
+		return uint64(value.(uint8))
 	case uint16:
-		uval := value.(uint16)
-		val := uint64(uval)
-		return val
+		return uint64(value.(uint16))
 	case uint32:
-		uval := value.(uint32)
-		val := uint64(uval)
-		return val
+		return uint64(value.(uint32))
 	case uint64:
-		val := value.(uint64)
-		return val
+		return value.(uint64)
 	case float32:
-		fval := value.(float32)
-		if fval < 0 || fval > math.MaxUint64 {
-			gbox.WARN("Data overflow during type conversion. value: %v", fval)
+		val := value.(float32)
+		if val < 0 || val > math.MaxUint64 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint64(fval)
-		return val
+		return uint64(val)
 	case float64:
-		fval := value.(float64)
-		if fval < 0 || fval > math.MaxUint64 {
-			gbox.WARN("Data overflow during type conversion. value: %v", fval)
+		val := value.(float64)
+		if val < 0 || val > math.MaxUint64 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := uint64(fval)
-		return val
+		return uint64(val)
 	}
-
 	return 0
 }
 
@@ -1241,81 +1045,62 @@ func CastToFloat32(value any) float32 {
 	case string:
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
-			fval, _ := strconv.ParseFloat(value.(string), 64)
-			if fval > math.MaxFloat32 || float64(fval) < math.SmallestNonzeroFloat32 {
-				gbox.WARN("Data overflow during type conversion. value: %v", fval)
+			val, _ := strconv.ParseFloat(value.(string), 64)
+			if val > math.MaxFloat32 || float64(val) < math.SmallestNonzeroFloat32 {
+				gbox.WARN("Data overflow during type conversion. value: %v", val)
 			}
-			val := float32(fval)
-			return val
+			return float32(val)
 		}
 	case int:
-		ival := value.(int)
-		if float64(ival) > math.MaxFloat32 || float64(ival) < math.SmallestNonzeroFloat32 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int)
+		if float64(val) > math.MaxFloat32 || float64(val) < math.SmallestNonzeroFloat32 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := float32(ival)
-		return val
+		return float32(val)
 	case int8:
-		ival := value.(int8)
-		val := float32(ival)
-		return val
+		return float32(value.(int8))
 	case int16:
-		ival := value.(int16)
-		val := float32(ival)
-		return val
+		return float32(value.(int16))
 	case int32:
-		ival := value.(int32)
-		val := float32(ival)
-		return val
+		return float32(value.(int32))
 	case int64:
-		ival := value.(int64)
-		if float64(ival) > math.MaxFloat32 || float64(ival) < math.SmallestNonzeroFloat32 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int64)
+		if float64(val) > math.MaxFloat32 || float64(val) < math.SmallestNonzeroFloat32 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := float32(ival)
-		return val
+		return float32(val)
 	case uint:
-		uval := value.(uint)
-		if float64(uval) > math.MaxFloat32 || float64(uval) < math.SmallestNonzeroFloat32 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint)
+		if float64(val) > math.MaxFloat32 || float64(val) < math.SmallestNonzeroFloat32 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := float32(uval)
-		return val
+		return float32(val)
 	case uint8:
-		uval := value.(uint8)
-		val := float32(uval)
-		return val
+		return float32(value.(uint8))
 	case uint16:
-		uval := value.(uint16)
-		val := float32(uval)
-		return val
+		return float32(value.(uint16))
 	case uint32:
-		uval := value.(uint32)
-		if float64(uval) > math.MaxFloat32 || float64(uval) < math.SmallestNonzeroFloat32 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint32)
+		if float64(val) > math.MaxFloat32 || float64(val) < math.SmallestNonzeroFloat32 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := float32(uval)
-		return val
+		return float32(val)
 	case uint64:
-		uval := value.(uint64)
-		if float64(uval) > math.MaxFloat32 || float64(uval) < math.SmallestNonzeroFloat32 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint64)
+		if float64(val) > math.MaxFloat32 || float64(val) < math.SmallestNonzeroFloat32 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := float32(uval)
-		return val
+		return float32(val)
 	case float32:
-		val := value.(float32)
-		return val
+		return value.(float32)
 	case float64:
-		fval := value.(float64)
-		if fval > math.MaxFloat32 || fval < math.SmallestNonzeroFloat32 {
-			gbox.WARN("Data overflow during type conversion. value: %v", fval)
+		val := value.(float64)
+		if val > math.MaxFloat32 || val < math.SmallestNonzeroFloat32 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
 
-		val := float32(fval)
-		return val
+		return float32(val)
 	}
-
 	return 0
 }
 
@@ -1338,68 +1123,49 @@ func CastToFloat64(value any) float64 {
 			return val
 		}
 	case int:
-		ival := value.(int)
-		if float64(ival) > math.MaxFloat64 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int)
+		if float64(val) > math.MaxFloat64 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := float64(ival)
-		return val
+		return float64(val)
 	case int8:
-		ival := value.(int8)
-		val := float64(ival)
-		return val
+		return float64(value.(int8))
 	case int16:
-		ival := value.(int16)
-		val := float64(ival)
-		return val
+		return float64(value.(int16))
 	case int32:
-		ival := value.(int32)
-		val := float64(ival)
-		return val
+		return float64(value.(int32))
 	case int64:
-		ival := value.(int64)
-		if float64(ival) > math.MaxFloat64 {
-			gbox.WARN("Data overflow during type conversion. value: %v", ival)
+		val := value.(int64)
+		if float64(val) > math.MaxFloat64 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := float64(ival)
-		return val
+		return float64(val)
 	case uint:
-		uval := value.(uint)
-		if float64(uval) > math.MaxFloat64 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint)
+		if float64(val) > math.MaxFloat64 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := float64(uval)
-		return val
+		return float64(val)
 	case uint8:
-		uval := value.(uint8)
-		val := float64(uval)
-		return val
+		return float64(value.(uint8))
 	case uint16:
-		uval := value.(uint16)
-		val := float64(uval)
-		return val
+		return float64(value.(uint16))
 	case uint32:
-		uval := value.(uint32)
-		if float64(uval) > math.MaxFloat64 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint32)
+		if float64(val) > math.MaxFloat64 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := float64(uval)
-		return val
+		return float64(val)
 	case uint64:
-		uval := value.(uint64)
-		if float64(uval) > math.MaxFloat64 {
-			gbox.WARN("Data overflow during type conversion. value: %v", uval)
+		val := value.(uint64)
+		if float64(val) > math.MaxFloat64 {
+			gbox.WARN("Data overflow during type conversion. value: %v", val)
 		}
-		val := float64(uval)
-		return val
+		return float64(val)
 	case float32:
-		fval := value.(float32)
-		val := float64(fval)
-		return val
+		return float64(value.(float32))
 	case float64:
-		val := value.(float64)
-		return val
+		return value.(float64)
 	}
-
 	return 0
 }

@@ -61,7 +61,7 @@ func ParseTime(value string) time.Time {
 
 // ParseLocation 转换 lng,lat 格式经纬度字符串，例：113.617525,34.751782
 func ParseLocation(value string) (float64, float64) {
-	if strings.TrimSpace(value) == "" || strings.Contains(value, ",") {
+	if strings.TrimSpace(value) == "" || !strings.Contains(value, ",") {
 		return 0, 0
 	}
 	locs := strings.Split(value, ",")

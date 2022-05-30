@@ -5,6 +5,8 @@
 
 package k
 
+import "strings"
+
 // StringReverse 反转字符串
 func StringReverse(value string) string {
 	r := []rune(value)
@@ -12,4 +14,24 @@ func StringReverse(value string) string {
 		r[i], r[j] = r[j], r[i]
 	}
 	return string(r)
+}
+
+// StringIsAnyBlank 判断给定的字符串参数中是否存在空字符串
+func StringIsAnyBlank(value ...string) bool {
+	for _, s := range value {
+		if strings.TrimSpace(s) == "" {
+			return true
+		}
+	}
+	return false
+}
+
+// StringIsAllBlank 判断给定的字符串参数中是否全部为空字符串
+func StringIsAllBlank(value ...string) bool {
+	for _, s := range value {
+		if strings.TrimSpace(s) != "" {
+			return false
+		}
+	}
+	return true
 }

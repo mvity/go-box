@@ -14,6 +14,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 // HttpGet 执行Get请求
@@ -39,19 +40,39 @@ func HttpGet(rUrl string) (bool, string, int) {
 
 // HttpPostForm 执行Post Form 请求
 func HttpPostForm(requestUrl string, data url.Values) (bool, string, int) {
-	client := http.Client{}
-	resp, err := client.PostForm(requestUrl, data)
+	form := ioutil.NopCloser(strings.NewReader(data.Encode()))
+	req, err := http.NewRequest("POST", requestUrl, form)
 	if err != nil {
-		return false, fmt.Sprintf("[%s] %s", "k.HttpPostForm", "Network Request Error："+err.Error()), 0
+		return false, fmt.Sprintf("[%s] %s", "k.HttpPostJson", "Network Create Error："+err.Error()), 0
+	}
+	client := http.Client{}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded;charset=utf-8")
+	resp, err := client.Do(req)
+	if err != nil {
+		return false, fmt.Sprintf("[%s] %s", "k.HttpPostJson", "Network Request Error："+err.Error()), 0
 	}
 	defer func(Body io.ReadCloser) {
 		_ = Body.Close()
 	}(resp.Body)
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return false, fmt.Sprintf("[%s] %s", "k.HttpPostForm", "Network Response Error："+err.Error()), 0
+		return false, fmt.Sprintf("[%s] %s", "k.HttpPostJson", "Network Response Error："+err.Error()), 0
 	}
 	return true, string(body), resp.StatusCode
+
+	//client := http.Client{}
+	//resp, err := client.PostForm(requestUrl, data)
+	//if err != nil {
+	//	return false, fmt.Sprintf("[%s] %s", "k.HttpPostForm", "Network Request Error："+err.Error()), 0
+	//}
+	//defer func(Body io.ReadCloser) {
+	//	_ = Body.Close()
+	//}(resp.Body)
+	//body, err := ioutil.ReadAll(resp.Body)
+	//if err != nil {
+	//	return false, fmt.Sprintf("[%s] %s", "k.HttpPostForm", "Network Response Error："+err.Error()), 0
+	//}
+	//return true, string(body), resp.StatusCode
 }
 
 // HttpPostJson 执行Post JSON请求
@@ -61,7 +82,7 @@ func HttpPostJson(requestUrl string, json string) (bool, string, int) {
 		return false, fmt.Sprintf("[%s] %s", "k.HttpPostJson", "Network Create Error："+err.Error()), 0
 	}
 	client := http.Client{}
-	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Content-Type", "application/json;charset=utf-8")
 	resp, err := client.Do(req)
 	if err != nil {
 		return false, fmt.Sprintf("[%s] %s", "k.HttpPostJson", "Network Request Error："+err.Error()), 0

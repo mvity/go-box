@@ -119,13 +119,13 @@ func CastToInt(value any) int {
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
-				val, _ := strconv.ParseFloat(value.(string), 64)
+				val, _ := strconv.ParseFloat(sval, 64)
 				if val > math.MaxInt {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
 				return int(val)
 			} else {
-				val, _ := strconv.ParseInt(value.(string), 10, 64)
+				val, _ := strconv.ParseInt(sval, 10, 64)
 				if val > math.MaxInt {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
@@ -196,13 +196,13 @@ func CastToInt8(value any) int8 {
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
-				val, _ := strconv.ParseFloat(value.(string), 64)
+				val, _ := strconv.ParseFloat(sval, 64)
 				if val > math.MaxInt8 {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
 				return int8(val)
 			} else {
-				val, _ := strconv.ParseInt(value.(string), 10, 64)
+				val, _ := strconv.ParseInt(sval, 10, 64)
 				if val > math.MaxInt8 {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
@@ -390,13 +390,13 @@ func CastToInt32(value any) int32 {
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
-				val, _ := strconv.ParseFloat(value.(string), 64)
+				val, _ := strconv.ParseFloat(sval, 64)
 				if val > math.MaxInt32 {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
 				return int32(val)
 			} else {
-				val, _ := strconv.ParseInt(value.(string), 10, 64)
+				val, _ := strconv.ParseInt(sval, 10, 64)
 				if val > math.MaxInt32 {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
@@ -475,13 +475,13 @@ func CastToInt64(value any) int64 {
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
-				val, _ := strconv.ParseFloat(value.(string), 64)
+				val, _ := strconv.ParseFloat(sval, 64)
 				if val > math.MaxInt64 {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
 				return int64(val)
 			} else {
-				val, _ := strconv.ParseInt(value.(string), 10, 64)
+				val, _ := strconv.ParseInt(sval, 10, 64)
 				return val
 			}
 		} else {
@@ -548,19 +548,19 @@ func CastToUInt(value any) uint {
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
-				val, _ := strconv.ParseFloat(value.(string), 64)
+				val, _ := strconv.ParseFloat(sval, 64)
 				if val < 0 || val > math.MaxUint {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
 				return uint(val)
 			} else if strings.Contains(sval, "-") {
-				val, _ := strconv.ParseInt(value.(string), 10, 64)
+				val, _ := strconv.ParseInt(sval, 10, 64)
 				if val < 0 {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
 				return uint(val)
 			} else {
-				val, _ := strconv.ParseUint(value.(string), 10, 64)
+				val, _ := strconv.ParseUint(sval, 10, 64)
 				if val < 0 || val > math.MaxUint {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
@@ -644,19 +644,19 @@ func CastToUInt8(value any) uint8 {
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
-				val, _ := strconv.ParseFloat(value.(string), 64)
+				val, _ := strconv.ParseFloat(sval, 64)
 				if val < 0 || val > math.MaxUint8 {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
 				return uint8(val)
 			} else if strings.Contains(sval, "-") {
-				val, _ := strconv.ParseInt(value.(string), 10, 64)
+				val, _ := strconv.ParseInt(sval, 10, 64)
 				if val < 0 || val > math.MaxUint8 {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
 				return uint8(val)
 			} else {
-				val, _ := strconv.ParseUint(value.(string), 10, 64)
+				val, _ := strconv.ParseUint(sval, 10, 64)
 				if val < 0 || val > math.MaxUint8 {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
@@ -751,19 +751,19 @@ func CastToUInt16(value any) uint16 {
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
-				val, _ := strconv.ParseFloat(value.(string), 64)
+				val, _ := strconv.ParseFloat(sval, 64)
 				if val < 0 || val > math.MaxUint16 {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
 				return uint16(val)
 			} else if strings.Contains(sval, "-") {
-				val, _ := strconv.ParseInt(value.(string), 10, 64)
+				val, _ := strconv.ParseInt(sval, 10, 64)
 				if val < 0 || val > math.MaxUint16 {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
 				return uint16(val)
 			} else {
-				val, _ := strconv.ParseUint(value.(string), 10, 64)
+				val, _ := strconv.ParseUint(sval, 10, 64)
 				if val < 0 || val > math.MaxUint16 {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
@@ -855,19 +855,19 @@ func CastToUInt32(value any) uint32 {
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
-				val, _ := strconv.ParseFloat(value.(string), 64)
+				val, _ := strconv.ParseFloat(sval, 64)
 				if val < 0 || val > math.MaxUint32 {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
 				return uint32(val)
 			} else if strings.Contains(sval, "-") {
-				val, _ := strconv.ParseInt(value.(string), 10, 64)
+				val, _ := strconv.ParseInt(sval, 10, 64)
 				if val < 0 || val > math.MaxUint32 {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
 				return uint32(val)
 			} else {
-				val, _ := strconv.ParseUint(value.(string), 10, 64)
+				val, _ := strconv.ParseUint(sval, 10, 64)
 				if val < 0 || val > math.MaxUint32 {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
@@ -955,19 +955,19 @@ func CastToUInt64(value any) uint64 {
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
-				val, _ := strconv.ParseFloat(value.(string), 64)
+				val, _ := strconv.ParseFloat(sval, 64)
 				if val < 0 || val > math.MaxUint64 {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
 				return uint64(val)
 			} else if strings.Contains(sval, "-") {
-				val, _ := strconv.ParseInt(value.(string), 10, 64)
+				val, _ := strconv.ParseInt(sval, 10, 64)
 				if val < 0 {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
 				return uint64(val)
 			} else {
-				val, _ := strconv.ParseUint(value.(string), 10, 64)
+				val, _ := strconv.ParseUint(sval, 10, 64)
 				if val < 0 || val > math.MaxUint64 {
 					gbox.WARN("Data overflow during type conversion. value: %v", val)
 				}
@@ -1045,7 +1045,7 @@ func CastToFloat32(value any) float32 {
 	case string:
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
-			val, _ := strconv.ParseFloat(value.(string), 64)
+			val, _ := strconv.ParseFloat(sval, 64)
 			if val > math.MaxFloat32 || float64(val) < math.SmallestNonzeroFloat32 {
 				gbox.WARN("Data overflow during type conversion. value: %v", val)
 			}
@@ -1119,7 +1119,7 @@ func CastToFloat64(value any) float64 {
 	case string:
 		sval := strings.TrimSpace(value.(string))
 		if v.RegexpNumeric.MatchString(sval) {
-			val, _ := strconv.ParseFloat(value.(string), 64)
+			val, _ := strconv.ParseFloat(sval, 64)
 			return val
 		}
 	case int:

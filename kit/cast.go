@@ -13,9 +13,6 @@ import (
 	"strings"
 )
 
-var trueStrs = []string{"true", "1", "yes", "ok"}
-var falseStrs = []string{"false", "0", "no"}
-
 // CastToBool 转换为 bool 类型
 func CastToBool(value any) bool {
 	if value == nil {
@@ -25,18 +22,8 @@ func CastToBool(value any) bool {
 	case bool:
 		return value.(bool)
 	case string:
-		sval := strings.ToLower(strings.TrimSpace(value.(string)))
-		if sval != "" {
-			var val bool
-			if SliceContains(sval, trueStrs) {
-				val = true
-			} else if SliceContains(sval, falseStrs) {
-				val = false
-			} else {
-				val = false
-			}
-			return val
-		}
+		val, _ := strconv.ParseBool(strings.TrimSpace(value.(string)))
+		return val
 	case int:
 		return value.(int) > 0
 	case int8:

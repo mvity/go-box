@@ -3,6 +3,7 @@
 // Use of this source code is governed by an MIT-style
 // license that can be found in the LICENSE file.
 
+// Deprecated: The package move to x
 package k
 
 import "reflect"
@@ -20,4 +21,9 @@ func SliceContains[T any](value T, slice []T) bool {
 		}
 	}
 	return false
+}
+
+// SliceInsert 插入元素到指定位置
+func SliceInsert[T any](slice []T, index int, value T) []T {
+	return append(slice[:index], append([]T{value}, slice[index:]...)...)
 }

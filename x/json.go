@@ -3,7 +3,7 @@
 // Use of this source code is governed by an MIT-style
 // license that can be found in the LICENSE file.
 
-package k
+package x
 
 import (
 	"encoding/json"
@@ -11,15 +11,6 @@ import (
 	"strconv"
 	"strings"
 )
-
-// ToJSONString 转为JSON字符串
-func ToJSONString(value any) string {
-	jsonVal, err := json.Marshal(value)
-	if err != nil {
-		return "{}"
-	}
-	return string(jsonVal)
-}
 
 type jsonType int8
 
@@ -32,17 +23,8 @@ const (
 	jsonNull                    // JSON 空对象
 )
 
-// JsonNode JSON 结构
-type JsonNode struct {
-	rawString *string              // JSON 原始字符串，解析的时候存储
-	object    map[string]*JsonNode // JSON 对象类型
-	array     []*JsonNode          // JSON 数组类型
-	value     any                  // JSON 字段值
-	jType     jsonType             // JSON 字段值类型
-}
-
-// ParseJSONStringE 解析JSON字符串数据
-func ParseJSONStringE(jsonStr string) (*JsonNode, error) {
+// JsonFromStringE 解析JSON字符串数据，并返回解析错误
+func JsonFromStringE(jsonStr string) (*JsonNode, error) {
 	jsonStr = strings.TrimSpace(jsonStr)
 
 	node := new(JsonNode)
@@ -75,28 +57,46 @@ func ParseJSONStringE(jsonStr string) (*JsonNode, error) {
 	}
 }
 
-// ParseJSONString 强制解析JSON字符串，非法字符以{}或[]返回
-func ParseJSONString(val string, array bool) *JsonNode {
+// JsonFromString 解析JSON字符串，非法字符以{}或[]返回
+func JsonFromString(val string, array bool) *JsonNode {
 	if val == "" {
 		var node *JsonNode
 		if array {
-			node, _ = ParseJSONStringE("[]")
+			node, _ = JsonFromStringE("[]")
 		} else {
-			node, _ = ParseJSONStringE("{}")
+			node, _ = JsonFromStringE("{}")
 		}
 		return node
 	} else {
-		if node, err := ParseJSONStringE(val); err != nil {
+		if node, err := JsonFromStringE(val); err != nil {
 			if array {
-				node, _ = ParseJSONStringE("[]")
+				node, _ = JsonFromStringE("[]")
 			} else {
-				node, _ = ParseJSONStringE("{}")
+				node, _ = JsonFromStringE("{}")
 			}
 			return node
 		} else {
 			return node
 		}
 	}
+}
+
+// JsonToString 转为JSON字符串
+func JsonToString(value any) string {
+	jsonVal, err := json.Marshal(value)
+	if err != nil {
+		return "{}"
+	}
+	return string(jsonVal)
+}
+
+// JsonNode JSON 结构
+type JsonNode struct {
+	rawString *string              // JSON 原始字符串，解析的时候存储
+	object    map[string]*JsonNode // JSON 对象类型
+	array     []*JsonNode          // JSON 数组类型
+	value     any                  // JSON 字段值
+	jType     jsonType             // JSON 字段值类型
 }
 
 // ToMap 转换为map对象  map[string]any
@@ -173,7 +173,7 @@ func (n *JsonNode) Keys() []string {
 
 // ContainsKey 是否包含指定Key
 func (n *JsonNode) ContainsKey(key string) bool {
-	return SliceContains[string](key, n.Keys())
+	return SliceContains[string](n.Keys(), key)
 }
 
 // Name 获取JSON对象指定字段的值
@@ -301,7 +301,6 @@ func (n *JsonNode) parseSlice(val []any) (*JsonNode, error) {
 
 // 转换为JSON Value
 func (n *JsonNode) convert(val any) (*JsonNode, error) {
-	//fmt.Printf("Convert -> %value , %T \n", val, val)
 	node := &JsonNode{}
 	if val == nil {
 		node.jType = jsonNull
@@ -328,7 +327,7 @@ func (n *JsonNode) convert(val any) (*JsonNode, error) {
 			if now, err := n.parseSlice(val.([]any)); err != nil {
 				return nil, err
 			} else {
-				raw := ToJSONString(val)
+				raw := JsonToString(val)
 				node.jType = jsonArray
 				node.array = now.array
 				node.rawString = &raw
@@ -337,7 +336,7 @@ func (n *JsonNode) convert(val any) (*JsonNode, error) {
 			if now, err := n.parseMap(val.(map[string]any)); err != nil {
 				return nil, err
 			} else {
-				raw := ToJSONString(val)
+				raw := JsonToString(val)
 				node.jType = jsonObject
 				node.object = now.object
 				node.rawString = &raw

@@ -11,12 +11,12 @@ var (
 	DEBUG = true
 )
 
-// SetDebug Set whether to enable Debug mode
+// SetDebug 设置GoBox是否为DEBUG模式
 func SetDebug(debug bool) {
 	DEBUG = debug
 }
 
-// WARN Output console log, only available in Debug mode
+// WARN 输出警告信息，仅在DEBUG模式下有效
 func WARN(format string, v ...any) {
 	if DEBUG {
 		log.Printf("WARN: "+format, v...)

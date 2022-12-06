@@ -20,7 +20,7 @@ func main() {
 	//  "type": "三厢",
 	//  "pic": "https://xxxx.com/xxx.webp"
 	//}`
-	//node := k.ParseJSONStringForce(jsonA, false)
+	//node := k.ParseJSONString(jsonA, false)
 	//
 	//fmt.Println(node.Name("color").IsEmpty())
 	//fmt.Println(node.Name("color").Size())

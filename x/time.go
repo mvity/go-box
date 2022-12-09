@@ -7,7 +7,12 @@ package x
 
 import "time"
 
-// DateGetAtZero 获取指定时间当天零点时刻
-func DateGetAtZero(t time.Time) time.Time {
+// GetZeroTime  获取指定时间零点时刻
+func GetZeroTime(t time.Time) time.Time {
 	return time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
+}
+
+// GetLastTime  获取指定时间最后时刻
+func GetLastTime(t time.Time) time.Time {
+	return time.Date(t.Year(), t.Month(), t.Day(), 23, 59, 59, 0, t.Location())
 }

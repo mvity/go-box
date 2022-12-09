@@ -7,7 +7,7 @@ package main
 
 import (
 	"fmt"
-	k "github.com/mvity/go-box/kit"
+	"github.com/mvity/go-box/x"
 )
 
 func main() {
@@ -54,8 +54,13 @@ func main() {
 
 	//percent := (float64(count) * float64(total)) / float64(total)
 	percent := float64(count) / float64(total) * 100.0
+	println(percent)
+	if percent > 0 {
+		count = 1
+	}
+	//k.CastToBool(11)
+	//println(fmt.Sprintf("%.0f", percent))
 
-	k.CastToBool(11)
-	println(fmt.Sprintf("%.0f", percent))
+	println(x.Ternary(total > count, "1", "2"))
 
 }

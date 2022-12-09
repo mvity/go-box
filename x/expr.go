@@ -4,3 +4,12 @@
 // license that can be found in the LICENSE file.
 
 package x
+
+// Ternary 三元表达式
+func Ternary[T any](expr bool, first T, second T) T {
+	if expr {
+		return first
+	} else {
+		return second
+	}
+}

@@ -10,7 +10,7 @@ import (
 	"encoding/json"
 	"fmt"
 	gbox "github.com/mvity/go-box"
-	v "github.com/mvity/go-box/validator"
+	"github.com/mvity/go-box/x"
 	"math"
 	"strconv"
 	"strings"
@@ -37,7 +37,7 @@ func NewFloat64(value any) Float64 {
 		intv.value = &val
 	case string:
 		sval := strings.TrimSpace(value.(string))
-		if v.RegexpNumeric.MatchString(sval) {
+		if x.RegexpNumeric.MatchString(sval) {
 			val, _ := strconv.ParseFloat(value.(string), 64)
 			intv.value = &val
 		}
@@ -137,7 +137,7 @@ func (i Float64) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON implements the encoding json interface.
 func (i *Float64) UnmarshalJSON(data []byte) error {
 	sval := strings.Trim(string(data), "\"")
-	if !v.RegexpNumeric.MatchString(sval) {
+	if !x.RegexpNumeric.MatchString(sval) {
 		i.value = nil
 		return nil
 	}

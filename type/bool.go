@@ -9,8 +9,8 @@ import (
 	"database/sql/driver"
 	"encoding/json"
 	"fmt"
-	k "github.com/mvity/go-box/kit"
-	"strings"
+	"github.com/mvity/go-box/x"
+	"strconv"
 )
 
 // Bool A nullable safe type, based on Golang basic type, supports JSON escape, Database field definition
@@ -33,18 +33,9 @@ func NewBool(value any) Bool {
 		var val = value.(bool)
 		boolv.value = &val
 	case string:
-		sval := strings.ToLower(strings.TrimSpace(value.(string)))
-		if sval != "" {
-			var val bool
-			if k.SliceContains(sval, trueStrs) {
-				val = true
-			} else if k.SliceContains(sval, falseStrs) {
-				val = false
-			} else {
-				break
-			}
-			boolv.value = &val
-		}
+		//sval := strings.ToLower(strings.TrimSpace(value.(string)))
+		val, _ := strconv.ParseBool(x.ToString(value))
+		boolv.value = &val
 	case int:
 		ival := value.(int)
 		val := ival > 0

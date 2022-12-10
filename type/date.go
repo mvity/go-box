@@ -11,7 +11,7 @@ import (
 	"errors"
 	"fmt"
 	gbox "github.com/mvity/go-box"
-	v "github.com/mvity/go-box/validator"
+	"github.com/mvity/go-box/x"
 	"math"
 	"strconv"
 	"strings"
@@ -34,7 +34,7 @@ func NewDate(value any) Date {
 	switch value.(type) {
 	case string:
 		sval := strings.TrimSpace(value.(string))
-		if v.RegexpNumeric.MatchString(sval) && !strings.Contains(sval, ".") {
+		if x.RegexpNumeric.MatchString(sval) && !strings.Contains(sval, ".") {
 			ival, _ := strconv.ParseInt(value.(string), 10, 64)
 			if ival < math.MaxInt32 {
 				val := int32(ival)
@@ -114,7 +114,7 @@ func (i Date) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON implements the encoding json interface.
 func (i *Date) UnmarshalJSON(data []byte) error {
 	sval := strings.Trim(string(data), "\"")
-	if !v.RegexpNumeric.MatchString(sval) {
+	if !x.RegexpNumeric.MatchString(sval) {
 		i.value = nil
 		return nil
 	}

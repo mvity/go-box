@@ -7,7 +7,6 @@ package x
 
 import (
 	gbox "github.com/mvity/go-box"
-	v "github.com/mvity/go-box/validator"
 	"math"
 	"strconv"
 	"strings"
@@ -104,7 +103,7 @@ func ToInt(value any) int {
 		return val
 	case string:
 		sval := strings.TrimSpace(value.(string))
-		if v.RegexpNumeric.MatchString(sval) {
+		if RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
 				val, _ := strconv.ParseFloat(sval, 64)
 				if val > math.MaxInt {
@@ -181,7 +180,7 @@ func ToInt8(value any) int8 {
 		return val
 	case string:
 		sval := strings.TrimSpace(value.(string))
-		if v.RegexpNumeric.MatchString(sval) {
+		if RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
 				val, _ := strconv.ParseFloat(sval, 64)
 				if val > math.MaxInt8 {
@@ -282,7 +281,7 @@ func ToInt16(value any) int16 {
 		return val
 	case string:
 		sval := strings.TrimSpace(value.(string))
-		if v.RegexpNumeric.MatchString(sval) {
+		if RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
 				val, _ := strconv.ParseFloat(value.(string), 64)
 				if val > math.MaxInt16 {
@@ -375,7 +374,7 @@ func ToInt32(value any) int32 {
 		return val
 	case string:
 		sval := strings.TrimSpace(value.(string))
-		if v.RegexpNumeric.MatchString(sval) {
+		if RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
 				val, _ := strconv.ParseFloat(sval, 64)
 				if val > math.MaxInt32 {
@@ -460,7 +459,7 @@ func ToInt64(value any) int64 {
 		return val
 	case string:
 		sval := strings.TrimSpace(value.(string))
-		if v.RegexpNumeric.MatchString(sval) {
+		if RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
 				val, _ := strconv.ParseFloat(sval, 64)
 				if val > math.MaxInt64 {
@@ -533,7 +532,7 @@ func ToUInt(value any) uint {
 		return val
 	case string:
 		sval := strings.TrimSpace(value.(string))
-		if v.RegexpNumeric.MatchString(sval) {
+		if RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
 				val, _ := strconv.ParseFloat(sval, 64)
 				if val < 0 || val > math.MaxUint {
@@ -629,7 +628,7 @@ func ToUInt8(value any) uint8 {
 		return val
 	case string:
 		sval := strings.TrimSpace(value.(string))
-		if v.RegexpNumeric.MatchString(sval) {
+		if RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
 				val, _ := strconv.ParseFloat(sval, 64)
 				if val < 0 || val > math.MaxUint8 {
@@ -736,7 +735,7 @@ func ToUInt16(value any) uint16 {
 		return val
 	case string:
 		sval := strings.TrimSpace(value.(string))
-		if v.RegexpNumeric.MatchString(sval) {
+		if RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
 				val, _ := strconv.ParseFloat(sval, 64)
 				if val < 0 || val > math.MaxUint16 {
@@ -840,7 +839,7 @@ func ToUInt32(value any) uint32 {
 		return val
 	case string:
 		sval := strings.TrimSpace(value.(string))
-		if v.RegexpNumeric.MatchString(sval) {
+		if RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
 				val, _ := strconv.ParseFloat(sval, 64)
 				if val < 0 || val > math.MaxUint32 {
@@ -940,7 +939,7 @@ func ToUInt64(value any) uint64 {
 		return val
 	case string:
 		sval := strings.TrimSpace(value.(string))
-		if v.RegexpNumeric.MatchString(sval) {
+		if RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
 				val, _ := strconv.ParseFloat(sval, 64)
 				if val < 0 || val > math.MaxUint64 {
@@ -1031,7 +1030,7 @@ func ToFloat32(value any) float32 {
 		return val
 	case string:
 		sval := strings.TrimSpace(value.(string))
-		if v.RegexpNumeric.MatchString(sval) {
+		if RegexpNumeric.MatchString(sval) {
 			val, _ := strconv.ParseFloat(sval, 64)
 			if val > math.MaxFloat32 || float64(val) < math.SmallestNonzeroFloat32 {
 				gbox.WARN("Data overflow during type conversion. value: %v", val)
@@ -1105,7 +1104,7 @@ func ToFloat64(value any) float64 {
 		return val
 	case string:
 		sval := strings.TrimSpace(value.(string))
-		if v.RegexpNumeric.MatchString(sval) {
+		if RegexpNumeric.MatchString(sval) {
 			val, _ := strconv.ParseFloat(sval, 64)
 			return val
 		}

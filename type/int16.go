@@ -10,7 +10,7 @@ import (
 	"encoding/json"
 	"fmt"
 	gbox "github.com/mvity/go-box"
-	v "github.com/mvity/go-box/validator"
+	"github.com/mvity/go-box/x"
 	"math"
 	"strconv"
 	"strings"
@@ -37,7 +37,7 @@ func NewInt16(value any) Int16 {
 		intv.value = &val
 	case string:
 		sval := strings.TrimSpace(value.(string))
-		if v.RegexpNumeric.MatchString(sval) {
+		if x.RegexpNumeric.MatchString(sval) {
 			if strings.Contains(sval, ".") {
 				fval, _ := strconv.ParseFloat(value.(string), 64)
 				if fval > math.MaxInt16 {
@@ -162,7 +162,7 @@ func (i Int16) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON implements the encoding json interface.
 func (i *Int16) UnmarshalJSON(data []byte) error {
 	sval := strings.Trim(string(data), "\"")
-	if !v.RegexpNumeric.MatchString(sval) {
+	if !x.RegexpNumeric.MatchString(sval) {
 		i.value = nil
 		return nil
 	}

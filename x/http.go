@@ -18,8 +18,8 @@ import (
 )
 
 // HttpGet 执行Get请求
-func HttpGet(rUrl string) (bool, string, int) {
-	req, err := http.NewRequest("GET", rUrl, nil)
+func HttpGet(requestUrl string) (bool, string, int) {
+	req, err := http.NewRequest("GET", requestUrl, nil)
 	if err != nil {
 		return false, fmt.Sprintf("[%s] %s", "x.HttpGet", "Network Create Error："+err.Error()), 0
 	}

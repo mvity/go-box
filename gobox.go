@@ -8,17 +8,21 @@ package gbox
 import "log"
 
 var (
-	DEBUG = true
+	debug = true
 )
 
 // SetDebug 设置GoBox是否为DEBUG模式
-func SetDebug(debug bool) {
-	DEBUG = debug
+func SetDebug(_debug bool) {
+	debug = _debug
+}
+
+func IsDebug() bool {
+	return debug
 }
 
 // WARN 输出警告信息，仅在DEBUG模式下有效
 func WARN(format string, v ...any) {
-	if DEBUG {
+	if debug {
 		log.Printf("WARN: "+format, v...)
 	}
 }

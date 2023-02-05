@@ -1,4 +1,4 @@
-// Copyright © 2021 - 2022 vity <vityme@icloud.com>.
+// Copyright © 2021 - 2023 vity <vityme@icloud.com>.
 //
 // Use of this source code is governed by an MIT-style
 // license that can be found in the LICENSE file.
@@ -6,61 +6,120 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
-	"github.com/mvity/go-box/x"
+	"io"
+	"net"
+	"net/http"
+	"net/url"
+	"time"
 )
 
 func main() {
-	//
-	//jsonA := `{
-	//  "default": true,
-	//  "year": "2020",
-	//  "color": null,
-	//  "door": "4",
-	//  "type": "三厢",
-	//  "pic": "https://xxxx.com/xxx.webp"
-	//}`
-	//node := k.ParseJSONString(jsonA, false)
-	//
-	//fmt.Println(node.Name("color").IsEmpty())
-	//fmt.Println(node.Name("color").Size())
-	//fmt.Println(node.Name("color").Int64())
-	//fmt.Println(node.Name("color").String())
-	//fmt.Println(node.Name("color").Boolean())
-	//fmt.Println(node.Name("color").Name("0"))
-	//
-	//digitsRegexp := regexp.MustCompile(`\d+`)
-	//
-	//fmt.Println(digitsRegexp.FindAllString("5人", -1))
 
-	//println(base64.StdEncoding.EncodeToString([]byte("abcdef律框架1123abcdef律框架1123abcdef律框架1123&=023")))
+	runReqs()
+}
 
-	// 				count := int64(math.Max(math.Ceil(float64(kit.HourToDayValue(hours)/15)), 1))
-	//println(int64(math.Max(math.Ceil(float64(16)/15), 1)))
-
-	fmt.Println("Hello, 世界")
-	//var val uint64 = 730
-	//var ratio uint64 = 50000
-	//res := val * ratio / 1e6
-	//fmt.Println("res:", res)
-	//
-	//var val2 float64 = 10
-	//var ratio2 float64 = 100
-	//res2 := val2 * (ratio2 / 1000000.00)
-	//fmt.Println("res2:", res2)
-
-	var total int64 = 150
-	var count int64 = 50
-
-	//percent := (float64(count) * float64(total)) / float64(total)
-	percent := float64(count) / float64(total) * 100.0
-	println(percent)
-	if percent > 0 {
-		count = 1
+func runReqs() {
+	var res *http.Response
+	var body []byte
+	var err error
+	res = doApi1()
+	defer func(Body io.ReadCloser) {
+		_ = Body.Close()
+	}(res.Body)
+	body, err = io.ReadAll(res.Body)
+	if err != nil {
+		fmt.Println(err)
 	}
-	//k.CastToBool(11)
-	//println(fmt.Sprintf("%.0f", percent))
+	fmt.Println(string(body))
 
-	println(x.Ternary(total > count, "1", "2"))
+	res = doApi2()
+	defer func(Body io.ReadCloser) {
+		_ = Body.Close()
+	}(res.Body)
+	body, err = io.ReadAll(res.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(string(body))
 
+	res = doApi3()
+	defer func(Body io.ReadCloser) {
+		_ = Body.Close()
+	}(res.Body)
+	body, err = io.ReadAll(res.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(string(body))
+
+}
+
+func doPost(uri string, headers map[string]string, body string) *http.Response {
+	proxy, _ := url.Parse("http://127.0.0.1:8888")
+	client := http.Client{
+		Transport: &http.Transport{
+			Proxy:       http.ProxyURL(proxy),
+			DialContext: (&net.Dialer{KeepAlive: 30 * time.Second}).DialContext,
+		},
+	}
+	t1 := time.Now()
+	req, err := http.NewRequest("POST", uri, bytes.NewBuffer([]byte(body)))
+	if err != nil {
+		println(err)
+	}
+	for key, val := range headers {
+		req.Header.Set(key, val)
+	}
+
+	res, err := client.Do(req)
+	t2 := time.Now().Sub(t1)
+	if err != nil {
+		println(err)
+	}
+	fmt.Println("Req ", uri, "time : ", t2)
+	return res
+}
+
+func doApi1() *http.Response {
+	uri := ""
+	headers := map[string]string{
+		"User-Agent":      "UnityPlayer/2020.3.34f1 (UnityWebRequest/1.0, libcurl/7.80.0-DEV)",
+		"Accept":          "*/*",
+		"Accept-Encoding": "deflate, gzip",
+		"Context-Type":    "application/octet-stream",
+		"x_acts":          "",
+		"X-Unity-Version": "2020.3.34f1",
+	}
+	body := ""
+	return doPost(uri, headers, body)
+}
+
+func doApi2() *http.Response {
+	uri := ""
+	headers := map[string]string{
+		"User-Agent":      "UnityPlayer/2020.3.34f1 (UnityWebRequest/1.0, libcurl/7.80.0-DEV)",
+		"Accept":          "*/*",
+		"Accept-Encoding": "deflate, gzip",
+		"Context-Type":    "application/octet-stream",
+		"x_acts":          "",
+		"X-Unity-Version": "2020.3.34f1",
+	}
+	body := ""
+	return doPost(uri, headers, body)
+}
+
+func doApi3() *http.Response {
+	uri := ""
+	headers := map[string]string{
+		"User-Agent":      "UnityPlayer/2020.3.34f1 (UnityWebRequest/1.0, libcurl/7.80.0-DEV)",
+		"Accept":          "*/*",
+		"Accept-Encoding": "deflate, gzip",
+		"Context-Type":    "application/octet-stream",
+		"x_acts":          "",
+		"X-Unity-Version": "2020.3.34f1",
+	}
+	body := ""
+	return doPost(uri, headers, body)
 }

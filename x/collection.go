@@ -39,6 +39,18 @@ func SliceContains[T any](slice []T, value T) bool {
 	return false
 }
 
+// SliceIndex 获取指定元素在slice内的索引
+func SliceIndex[T any](slice []T, value T) int {
+	if size := len(slice); slice != nil && size > 0 {
+		for idx, item := range slice {
+			if reflect.DeepEqual(value, item) {
+				return idx
+			}
+		}
+	}
+	return -1
+}
+
 // SliceInsert 插入元素到指定位置
 func SliceInsert[T any](slice []T, index int, value T) []T {
 	return append(slice[:index], append([]T{value}, slice[index:]...)...)

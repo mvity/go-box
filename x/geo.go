@@ -9,7 +9,95 @@ package x
 
 import (
 	"bytes"
+	"math"
+	"strings"
 )
+
+type GeoPoint struct {
+	Lng float64
+
+	Lat float64
+}
+
+// NewGeoPoint 生成GeoPoint对象
+func NewGeoPoint(latLng string) GeoPoint {
+	strs := strings.Split(latLng, ",")
+	return GeoPoint{
+		Lng: ToFloat64(strs[0]),
+		Lat: ToFloat64(strs[1]),
+	}
+}
+
+// NewGeoPoints 生成GeoPoint对象数组
+func NewGeoPoints(latLngs string) []GeoPoint {
+	points := make([]GeoPoint, 0)
+	for _, s := range strings.Split(latLngs, ":") {
+		points = append(points, NewGeoPoint(s))
+	}
+	return points
+}
+
+// GeoCheckInAreas 检查指定点是否在区域内
+func GeoCheckInAreas(point GeoPoint, areas []GeoPoint) bool {
+	pointNum := len(areas) //点个数
+	intersectCount := 0    //cross points count of x
+	precision := 2e-10     //浮点类型计算时候与0比较时候的容差
+	p1 := GeoPoint{}       //neighbour bound vertices
+	p2 := GeoPoint{}
+	p := point //测试点
+
+	p1 = areas[0] //left vertex
+	for i := 0; i < pointNum; i++ {
+		if p.Lng == p1.Lng && p.Lat == p1.Lat {
+			return true
+		}
+		p2 = areas[i%pointNum]
+		if p.Lat < math.Min(p1.Lat, p2.Lat) || p.Lat > math.Max(p1.Lat, p2.Lat) {
+			p1 = p2
+			continue //next ray left point
+		}
+
+		if p.Lat > math.Min(p1.Lat, p2.Lat) && p.Lat < math.Max(p1.Lat, p2.Lat) {
+			if p.Lng <= math.Max(p1.Lng, p2.Lng) { //x is before of ray
+				if p1.Lat == p2.Lat && p.Lng >= math.Min(p1.Lng, p2.Lng) {
+					return true
+				}
+
+				if p1.Lng == p2.Lng { //ray is vertical
+					if p1.Lng == p.Lng { //overlies on a vertical ray
+						return true
+					} else { //before ray
+						intersectCount++
+					}
+				} else { //cross point on the left side
+					xinters := (p.Lat-p1.Lat)*(p2.Lng-p1.Lng)/(p2.Lat-p1.Lat) + p1.Lng
+					if math.Abs(p.Lng-xinters) < precision {
+						return true
+					}
+
+					if p.Lng < xinters { //before ray
+						intersectCount++
+					}
+				}
+			}
+		} else { //special case when ray is crossing through the vertex
+			if p.Lat == p2.Lat && p.Lng <= p2.Lng { //p crossing over p2
+				p3 := areas[(i+1)%pointNum]
+				if p.Lat >= math.Min(p1.Lat, p3.Lat) && p.Lat <= math.Max(p1.Lat, p3.Lat) {
+					intersectCount++
+				} else {
+					intersectCount += 2
+				}
+			}
+		}
+		p1 = p2 //next ray left point
+	}
+	if intersectCount%2 == 0 { //偶数在多边形外
+		return false
+	} else { //奇数在多边形内
+		return true
+	}
+}
 
 const (
 	geoHashbase32               = "0123456789bcdefghjkmnpqrstuvwxyz"

@@ -15,7 +15,6 @@ import (
 
 type GeoPoint struct {
 	Lng float64
-
 	Lat float64
 }
 
@@ -39,6 +38,15 @@ func NewGeoPoints(latLngs string) []GeoPoint {
 
 // GeoCheckInAreas 检查指定点是否在区域内
 func GeoCheckInAreas(point GeoPoint, areas []GeoPoint) bool {
+	if len(areas) < 3 {
+		return false
+	}
+	sPoint := areas[0]
+	ePoint := areas[len(areas)-1]
+	if sPoint.Lng != ePoint.Lng && sPoint.Lat != ePoint.Lat {
+		areas = append(areas, sPoint)
+	}
+
 	pointNum := len(areas) //点个数
 	intersectCount := 0    //cross points count of x
 	precision := 2e-10     //浮点类型计算时候与0比较时候的容差

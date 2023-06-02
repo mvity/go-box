@@ -7,9 +7,18 @@
 
 package main
 
+import (
+	"fmt"
+	"github.com/mvity/go-box/x"
+)
+
 func main() {
 
-	runReqs()
+	p := x.NewGeoPoint("113.685214,34.789401")
+	ps := x.NewGeoPoints("113.736638,34.842372:113.615533,34.843031:113.501244,34.810442:113.503647,34.737158:113.705633,34.611918:113.849389,34.772623")
+	fmt.Println(x.GeoCheckInAreas(p, ps))
+	//
+	//runReqs()
 }
 
 func runReqs() {

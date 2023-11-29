@@ -15,14 +15,15 @@ import (
 
 func main() {
 
-	now := time.Date(2023, 8, 31, 0, 0, 0, 0, time.Now().Location())
+	//now := time.Date(2023, 8, 31, 0, 0, 0, 0, time.Now().Location())
+	//
+	//fmt.Println(x.GetWeekdayOfDay(now, time.Monday))
+	//fmt.Println(x.GetWeekdayOfDay(now, time.Tuesday))
+	//fmt.Println(x.GetWeekdayOfDay(now, time.Wednesday))
+	//fmt.Println(x.GetWeekdayOfDay(now, time.Thursday))
+	//fmt.Println(x.GetWeekdayOfDay(now, time.Friday))
+	//fmt.Println(x.GetWeekdayOfDay(now, time.Saturday))
+	//fmt.Println(x.GetWeekdayOfDay(now, time.Sunday))
 
-	fmt.Println(x.GetWeekdayOfDay(now, time.Monday))
-	fmt.Println(x.GetWeekdayOfDay(now, time.Tuesday))
-	fmt.Println(x.GetWeekdayOfDay(now, time.Wednesday))
-	fmt.Println(x.GetWeekdayOfDay(now, time.Thursday))
-	fmt.Println(x.GetWeekdayOfDay(now, time.Friday))
-	fmt.Println(x.GetWeekdayOfDay(now, time.Saturday))
-	fmt.Println(x.GetWeekdayOfDay(now, time.Sunday))
-
+	fmt.Println(time.Now().Format("200601021505") + x.RandomString(5, false, true))
 }

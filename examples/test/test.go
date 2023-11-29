@@ -7,12 +7,6 @@
 
 package main
 
-import (
-	"fmt"
-	"github.com/mvity/go-box/x"
-	"time"
-)
-
 func main() {
 
 	//now := time.Date(2023, 8, 31, 0, 0, 0, 0, time.Now().Location())
@@ -25,5 +19,58 @@ func main() {
 	//fmt.Println(x.GetWeekdayOfDay(now, time.Saturday))
 	//fmt.Println(x.GetWeekdayOfDay(now, time.Sunday))
 
-	fmt.Println(time.Now().Format("200601021505") + x.RandomString(5, false, true))
+	//key := "udik876ehjde32dU61edsxsf"
+
+	//fmt.Println("rst : ", x.DESTripleEncrypt(key, "7wsVZ9EX"))
+
+	//{
+	//	str := x.RandomString(8, true, true)
+	//
+	//	fmt.Println("str : ", str)
+	//
+	//	key := "udik876ehjde32dU61edsxsf"
+	//
+	//	fmt.Println("rst : ", x.DESTripleEncrypt(key, str))
+	//
+	//	//fmt.Println("bak : ", x.DESTripleDecrypt(key, x.DESTripleEncrypt(key, str)))
+	//}
+	//
+	//{
+	//	str := x.RandomString(32, true, true)
+	//
+	//	fmt.Println("str : ", str)
+	//
+	//	key := "udik876ehjde32dU61edsxsf"
+	//
+	//	fmt.Println("rst : ", x.DESTripleEncrypt(key, str))
+	//
+	//	//fmt.Println("bak : ", x.DESTripleDecrypt(key, x.DESTripleEncrypt(key, str)))
+	//
+	//}
+	//
+	//{
+	//	str := x.RandomString(64, true, true)
+	//
+	//	fmt.Println("str : ", str)
+	//
+	//	key := "udik876ehjde32dU61edsxsf"
+	//
+	//	fmt.Println("rst : ", x.DESTripleEncrypt(key, str))
+	//
+	//	//fmt.Println("bak : ", x.DESTripleDecrypt(key, x.DESTripleEncrypt(key, str)))
+	//
+	//}
+	//
+	//{
+	//	str := x.RandomString(128, true, true)
+	//
+	//	fmt.Println("str : ", str)
+	//
+	//	key := "udik876ehjde32dU61edsxsf"
+	//
+	//	fmt.Println("rst : ", x.DESTripleEncrypt(key, str))
+	//
+	//	//fmt.Println("bak : ", x.DESTripleDecrypt(key, x.DESTripleEncrypt(key, str)))
+	//
+	//}
 }

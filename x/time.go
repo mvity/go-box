@@ -1,5 +1,5 @@
 /*
- * Copyright © 2021 - 2023 vity <vityme@icloud.com>.
+ * Copyright © 2021 - 2024 vity <vityme@icloud.com>.
  *
  * Use of this source code is governed by an MIT-style
  * license that can be found in the LICENSE file.
@@ -35,4 +35,14 @@ func GetWeekdayOfDay(t time.Time, weekday time.Weekday) time.Time {
 		day = day.AddDate(0, 0, 7)
 	}
 	return day
+}
+
+// GetMonthFirstDay 获取指定日期的当月首日
+func GetMonthFirstDay(t time.Time) time.Time {
+	return time.Date(t.Year(), t.Month(), 1, 0, 0, 0, 0, t.Location())
+}
+
+// GetMonthLastDay 获取指定日期的当月最后一日
+func GetMonthLastDay(t time.Time) time.Time {
+	return GetZeroTime(GetMonthFirstDay(t).AddDate(0, 1, -1))
 }

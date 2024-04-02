@@ -1,5 +1,5 @@
 /*
- * Copyright © 2021 - 2023 vity <vityme@icloud.com>.
+ * Copyright © 2021 - 2024 vity <vityme@icloud.com>.
  *
  * Use of this source code is governed by an MIT-style
  * license that can be found in the LICENSE file.
@@ -159,4 +159,47 @@ func HttpPostXmlSecure(requestUrl string, xml string, certFile string, keyFile s
 		return false, fmt.Sprintf("[%s] %s", "x.HttpPostXmlSecure", "Network Response Error："+err.Error()), 0
 	}
 	return true, string(body), resp.StatusCode
+}
+
+// HttpPostJsonDownload 执行Post JSON请求并获取响应文件
+func HttpPostJsonDownload(requestUrl string, json string) (bool, string, *os.File, int) {
+	req, err := http.NewRequest("POST", requestUrl, bytes.NewBuffer([]byte(json)))
+	if err != nil {
+		return false, fmt.Sprintf("[%s] %s",
+			"x.HttpPostJsonDownload", "Network Create Error："+err.Error(),
+		), nil, 0
+	}
+	client := http.Client{}
+	req.Header.Set("Content-Type", "application/json;charset=utf-8")
+	resp, err := client.Do(req)
+	if err != nil {
+		return false, fmt.Sprintf(
+			"[%s] %s", "x.HttpPostJsonDownload", "Network Request Error："+err.Error(),
+		), nil, 0
+	}
+	defer func(Body io.ReadCloser) {
+		_ = Body.Close()
+	}(resp.Body)
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return false, fmt.Sprintf(
+			"[%s] %s", "x.HttpPostJsonDownload", "Network Response Error："+err.Error(),
+		), nil, resp.StatusCode
+	}
+	if strings.HasSuffix(string(body), "{") && strings.HasSuffix(string(body), "}") {
+		return false, string(body), nil, resp.StatusCode
+	}
+	f, err := os.CreateTemp("", "")
+	if err != nil {
+		return false, fmt.Sprintf(
+			"[%s] %s", "x.HttpPostJsonDownload", "Create temp file Error："+err.Error(),
+		), nil, 0
+	}
+	err = os.WriteFile(f.Name(), body, 0644)
+	if err != nil {
+		return false, fmt.Sprintf(
+			"[%s] %s", "x.HttpPostJsonDownload", "Write temp file Error："+err.Error(),
+		), nil, resp.StatusCode
+	}
+	return true, "", f, resp.StatusCode
 }

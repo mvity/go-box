@@ -186,7 +186,6 @@ func HttpPostJsonDownload(requestUrl string, json string) (bool, string, *os.Fil
 			"[%s] %s", "x.HttpPostJsonDownload", "Network Response Error："+err.Error(),
 		), nil, resp.StatusCode
 	}
-	fmt.Println(string(body), strings.HasSuffix(string(body), "{"), strings.HasSuffix(string(body), "}"))
 	if strings.HasPrefix(string(body), "{") && strings.HasSuffix(string(body), "}") {
 		return false, string(body), nil, resp.StatusCode
 	}

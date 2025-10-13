@@ -1,5 +1,5 @@
 /*
- * Copyright © 2021 - 2023 vity <vityme@icloud.com>.
+ * Copyright © 2021 - 2025 vity <vityme@icloud.com>.
  *
  * Use of this source code is governed by an MIT-style
  * license that can be found in the LICENSE file.
@@ -8,10 +8,11 @@
 package x
 
 import (
-	gbox "github.com/mvity/go-box"
 	"math"
 	"strconv"
 	"strings"
+
+	gbox "github.com/mvity/go-box"
 )
 
 // ToBool 转换为 bool 类型

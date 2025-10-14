@@ -15,6 +15,19 @@ import (
 	gbox "github.com/mvity/go-box"
 )
 
+// ToPtr 将值类型转换为指针类型
+func ToPtr[T any](v T) *T {
+	return &v
+}
+
+// FromPtr 将指针类型转换为值类型（若指针为nil，返回T的零值）
+func FromPtr[T any](p *T) T {
+	if p == nil {
+		return *new(T) // 返回T的零值（等价于 T{}）
+	}
+	return *p
+}
+
 // ToBool 转换为 bool 类型
 func ToBool(value any) bool {
 	if value == nil {

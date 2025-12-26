@@ -30,7 +30,7 @@ func FromPtr[T any](p *T) T {
 
 func ToIDString(value any) string {
 	if v := ToUInt64(value); v != 0 {
-		return strconv.FormatUint(uint64(v), 10)
+		return strconv.FormatUint(v, 10)
 	}
 	return ""
 }

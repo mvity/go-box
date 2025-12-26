@@ -28,6 +28,13 @@ func FromPtr[T any](p *T) T {
 	return *p
 }
 
+func ToIDString(value any) string {
+	if v := ToUInt64(value); v != 0 {
+		return strconv.FormatUint(uint64(v), 10)
+	}
+	return ""
+}
+
 // ToBool 转换为 bool 类型
 func ToBool(value any) bool {
 	if value == nil {
